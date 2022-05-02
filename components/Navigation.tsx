@@ -22,45 +22,49 @@ import { FiMenu, FiChevronDown } from "react-icons/fi";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { IconType } from "react-icons";
 import { ReactText } from "react";
+import Link from "next/link";
 
 interface NavItemProps extends FlexProps {
   icon: IconType;
   children: ReactText;
-  link?: string;
+  link: string;
 }
 export const NavItem = ({ icon, children, link, ...rest }: NavItemProps) => {
   return (
-    <LinkChakra
-      href={link}
-      style={{ textDecoration: "none" }}
-      _focus={{ boxShadow: "none" }}
-    >
-      <Flex
-        align="center"
-        p="4"
-        mx="4"
-        borderRadius="lg"
-        role="group"
-        cursor="pointer"
-        _hover={{
-          bg: "gray.400",
-          color: "white",
-        }}
-        {...rest}
-      >
-        {icon && (
-          <Icon
-            mr="4"
-            fontSize="16"
-            _groupHover={{
+    <>
+      <Link href={!!link ? link : "#"} passHref>
+        <LinkChakra
+          style={{ textDecoration: "none" }}
+          _focus={{ boxShadow: "none" }}
+        >
+          <Flex
+            align="center"
+            p="4"
+            mx="4"
+            borderRadius="lg"
+            role="group"
+            cursor="pointer"
+            _hover={{
+              bg: "gray.400",
               color: "white",
             }}
-            as={icon}
-          />
-        )}
-        {children}
-      </Flex>
-    </LinkChakra>
+            {...rest}
+          >
+            {icon && (
+              <Icon
+                mr="4"
+                fontSize="16"
+                _groupHover={{
+                  color: "white",
+                }}
+                as={icon}
+              />
+            )}
+            {children}
+          </Flex>
+        </LinkChakra>
+      </Link>
+    </>
   );
 };
 

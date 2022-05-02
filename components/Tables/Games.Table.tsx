@@ -12,13 +12,11 @@ import {
   Button,
 } from "@chakra-ui/react";
 
-export default function TableGames() {
+export function TableGames() {
   return (
     <>
       <main>
         <Box bg={useColorModeValue("white", "gray.700")} p={8}>
-          <Button m={5}>Nuevo</Button>
-
           <TableContainer>
             <Table variant="simple">
               <Thead>

@@ -9,7 +9,7 @@ import {
   Box,
 } from "@chakra-ui/react";
 
-function FormGames() {
+export function FormGames() {
   return (
     <>
       <main>
@@ -71,5 +71,3 @@ function FormGames() {
     </>
   );
 }
-
-export default FormGames;

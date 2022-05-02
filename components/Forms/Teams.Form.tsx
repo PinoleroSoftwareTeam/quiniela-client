@@ -9,7 +9,7 @@ import {
   Box,
 } from "@chakra-ui/react";
 
-export default function TeamsForm() {
+export function FormTeams() {
   return (
     <>
       <main>

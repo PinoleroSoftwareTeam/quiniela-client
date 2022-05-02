@@ -10,35 +10,27 @@ import {
   useDisclosure,
   BoxProps,
 } from "@chakra-ui/react";
-import {
-  FiGrid,
-  FiUser,
-  FiCompass,
-  FiGlobe,
-  FiUsers,
-  FiTv,
-} from "react-icons/fi";
+import { FiGrid, FiUser, FiGlobe, FiUsers, FiTv } from "react-icons/fi";
 import { IconType } from "react-icons";
 import { MobileNav, NavItem } from "./Navigation";
 
 interface LinkItemProps {
   name: string;
   icon: IconType;
-  path?: string;
+  path: string;
 }
 const LinkItems: Array<LinkItemProps> = [
   { name: "Inicio", icon: FiGrid, path: "/" },
-  { name: "Ligas", icon: FiGlobe },
-  { name: "Usuarios", icon: FiUser },
+  { name: "Ligas", icon: FiGlobe, path: "/leagues" },
+  { name: "Usuarios", icon: FiUser, path: "/users" },
   { name: "Equipos", icon: FiUsers, path: "/teams" },
-  { name: "Jornadas", icon: FiCompass },
   { name: "Partidos", icon: FiTv, path: "/games" },
 ];
 
 export default function SidebarWithHeader({
   children,
 }: {
-  children: ReactNode;
+  children?: ReactNode;
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
@@ -89,9 +81,9 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         </Text>
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
-      {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon} link={link.path}>
-          {link.name}
+      {LinkItems.map((item) => (
+        <NavItem key={item.name} icon={item.icon} link={item.path}>
+          {item.name}
         </NavItem>
       ))}
     </Box>

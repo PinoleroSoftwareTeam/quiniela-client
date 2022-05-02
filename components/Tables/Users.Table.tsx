@@ -1,3 +1,5 @@
+import React from "react";
+
 import {
   Table,
   Thead,
@@ -11,7 +13,7 @@ import {
   Box,
 } from "@chakra-ui/react";
 
-export function TableTeams() {
+export function TableUsers() {
   return (
     <>
       <main>
@@ -27,7 +29,7 @@ export function TableTeams() {
               </Thead>
               <Tbody>
                 <Tr>
-                  <Td>Real Madrid</Td>
+                  <Td>feet</Td>
                   <Td>
                     Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   </Td>
@@ -57,3 +59,5 @@ export function TableTeams() {
     </>
   );
 }
+
+export default TableUsers;
