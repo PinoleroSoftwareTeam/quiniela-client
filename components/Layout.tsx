@@ -22,6 +22,7 @@ interface LinkItemProps {
 const LinkItems: Array<LinkItemProps> = [
   { name: "Inicio", icon: FiGrid, path: "/" },
   { name: "Ligas", icon: FiGlobe, path: "/leagues" },
+  { name: "Eventos", icon: FiGlobe, path: "/calendars" },
   { name: "Usuarios", icon: FiUser, path: "/users" },
   { name: "Equipos", icon: FiUsers, path: "/teams" },
   { name: "Partidos", icon: FiTv, path: "/games" },

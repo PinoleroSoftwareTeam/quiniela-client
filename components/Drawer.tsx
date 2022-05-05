@@ -12,9 +12,10 @@ import {
 
 interface DrawerProps {
   title: string;
-  children: React.ReactNode;
+  titleAction: string;
+  children: React.ReactNode;  
 }
-export default function DrawerExample({ title, children }: DrawerProps) {
+export default function DrawerExample({ title, titleAction, children }: DrawerProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleOpen = () => {
@@ -23,6 +24,7 @@ export default function DrawerExample({ title, children }: DrawerProps) {
 
   return (
     <>
+      <Button onClick={onOpen}>{titleAction}</Button>
       <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
         <DrawerOverlay />
         <DrawerContent>

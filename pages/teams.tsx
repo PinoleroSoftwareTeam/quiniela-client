@@ -20,7 +20,7 @@ export default function Teams() {
           <title>Quiniela - Teams</title>
         </Head>
 
-        <Drawer title="Equipos">
+        <Drawer title="Equipos" titleAction="Nuevo">
           <FormTeams />
         </Drawer>
         <Layout>
