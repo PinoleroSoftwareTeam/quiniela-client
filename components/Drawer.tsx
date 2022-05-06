@@ -13,14 +13,15 @@ import {
 interface DrawerProps {
   title: string;
   children: React.ReactNode;
+  isOpen: boolean;
+  onClose: () => void;
 }
-export default function DrawerExample({ title, children }: DrawerProps) {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const handleOpen = () => {
-    onOpen();
-  };
-
+export default function DrawerExample({
+  title,
+  children,
+  isOpen,
+  onClose,
+}: DrawerProps) {
   return (
     <>
       <Drawer isOpen={isOpen} placement="right" onClose={onClose}>

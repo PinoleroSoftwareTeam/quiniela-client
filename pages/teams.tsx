@@ -10,9 +10,12 @@ import {
   Flex,
   Spacer,
   Button,
+  useDisclosure,
 } from "@chakra-ui/react";
 
 export default function Teams() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <>
       <main>
@@ -20,7 +23,7 @@ export default function Teams() {
           <title>Quiniela - Teams</title>
         </Head>
 
-        <Drawer title="Equipos">
+        <Drawer title="Equipos" isOpen={isOpen} onClose={onClose}>
           <FormTeams />
         </Drawer>
         <Layout>
@@ -30,7 +33,7 @@ export default function Teams() {
                 Equipos
               </Heading>
               <Spacer />
-              <Button>Nuevo</Button>
+              <Button onClick={onOpen}>Nuevo</Button>
             </Flex>
           </Box>
           <br />
