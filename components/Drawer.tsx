@@ -8,7 +8,7 @@ import {
   DrawerCloseButton,
   useDisclosure,
   Button,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
 interface DrawerProps {
   title: string;

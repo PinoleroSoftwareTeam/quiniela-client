@@ -1,8 +1,8 @@
-import Layout from "../components/Layout";
-import { TableTeams } from "../components/Tables";
-import Head from "next/head";
-import Drawer from "../components/Drawer";
-import { FormTeams } from "../components/Forms";
+import Layout from '../components/Layout';
+import { TableTeams } from '../components/Tables';
+import Head from 'next/head';
+import Drawer from '../components/Drawer';
+import { FormTeams } from '../components/Forms';
 import {
   useColorModeValue,
   Box,
@@ -11,7 +11,7 @@ import {
   Spacer,
   Button,
   useDisclosure,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
 export default function Teams() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -27,7 +27,7 @@ export default function Teams() {
           <FormTeams />
         </Drawer>
         <Layout>
-          <Box bg={useColorModeValue("white", "gray.700")} p={8}>
+          <Box bg={useColorModeValue('white', 'gray.700')} p={8}>
             <Flex>
               <Heading as="h1" size="lg">
                 Equipos
