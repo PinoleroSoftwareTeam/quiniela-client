@@ -11,6 +11,8 @@ import {
   Box,
   CircularProgress,
   Button,
+  Show,
+  Hide,
 } from '@chakra-ui/react';
 
 import HttpServices from '../../services/httpServices';
@@ -20,6 +22,7 @@ interface ColumnData {
   name: string;
   display: string;
   key: boolean;
+  hidde: boolean;
   isAction: boolean;
   action?: any;
 }
@@ -56,23 +59,40 @@ function GenericTable({
           <Table variant="simple">
             <Thead>
               <Tr>
-                {columns.map((column, index) => (
-                  <Th key={index}>{column.display}</Th>
-                ))}
+                {columns.map((column, index) =>
+                  !column.hidde ? (
+                    <Show>
+                      <Th key={index}>{column.display}</Th>
+                    </Show>
+                  ) : (
+                    <Hide>
+                      <Th key={index}>{column.display}</Th>
+                    </Hide>
+                  )
+                )}
               </Tr>
             </Thead>
             <Tbody>
               {rows.map((row, rowIndex) => {
                 let keyColumn = columns.filter(x => x.key)[0];
                 let keyName = keyColumn ? keyColumn.name : '';
-                console.log(keyName);
                 return (
                   <Tr key={rowIndex}>
                     {columns.map((column, columnIndex) =>
                       !column.isAction ? (
-                        <Td key={keyName ? row[keyName] : rowIndex}>
-                          {row[column.name]}
-                        </Td>
+                        !column.hidde ? (
+                          <Show>
+                            <Td key={keyName ? row[keyName] : rowIndex}>
+                              {row[column.name]}
+                            </Td>
+                          </Show>
+                        ) : (
+                          <Hide>
+                            <Td key={keyName ? row[keyName] : rowIndex}>
+                              {row[column.name]}
+                            </Td>
+                          </Hide>
+                        )
                       ) : (
                         <Td>
                           <Button

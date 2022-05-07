@@ -48,25 +48,63 @@ export default function Calendars() {
   };
 
   const columnsName = [
-    { name: 'id', display: 'Id', key: true, isAction: false },
-    { name: 'name', display: 'Name', key: false, isAction: false },
+    { name: 'id', display: 'Id', key: true, isAction: false, hidde: true },
+    {
+      name: 'name',
+      display: 'Name',
+      key: false,
+      isAction: false,
+      hidde: false,
+    },
     {
       name: 'description',
       display: 'Description',
       key: false,
       isAction: false,
+      hidde: false,
     },
-    { name: 'dateStart', display: 'Date Start', key: false, isAction: false },
-    { name: 'dateEnd', display: 'Date End', key: false, isAction: false },
-    { name: 'year', display: 'Year', key: false, isAction: false },
-    { name: 'scoreWin', display: 'Score Win', key: false, isAction: false },
-    { name: 'scorePoint', display: 'Score Point', key: false, isAction: false },
+    {
+      name: 'dateStart',
+      display: 'Date Start',
+      key: false,
+      isAction: false,
+      hidde: false,
+    },
+    {
+      name: 'dateEnd',
+      display: 'Date End',
+      key: false,
+      isAction: false,
+      hidde: false,
+    },
+    {
+      name: 'year',
+      display: 'Year',
+      key: false,
+      isAction: false,
+      hidde: false,
+    },
+    {
+      name: 'scoreWin',
+      display: 'Score Win',
+      key: false,
+      isAction: false,
+      hidde: false,
+    },
+    {
+      name: 'scorePoint',
+      display: 'Score Point',
+      key: false,
+      isAction: false,
+      hidde: false,
+    },
     {
       name: 'Editar',
       display: 'Editar',
       key: false,
       isAction: true,
       action: onClickEdit,
+      hidde: false,
     },
     {
       name: 'Eliminar',
@@ -74,6 +112,7 @@ export default function Calendars() {
       key: false,
       isAction: true,
       action: onClickDelete,
+      hidde: false,
     },
   ];
 

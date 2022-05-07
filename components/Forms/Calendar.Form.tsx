@@ -10,19 +10,10 @@ import {
 } from '@chakra-ui/react';
 import HttpServices from '../../services/httpServices';
 import { endpoint } from '../../constants/endpoints';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { ICalendar } from '../../models/ICalendar';
 
 const httpServices = new HttpServices();
-interface ICalendar {
-  id: Number;
-  name: string;
-  description: string;
-  dateStart: string;
-  dateEnd: string;
-  year: Number;
-  scoreWin: Number;
-  scorePoint: Number;
-}
 
 export function FormCalendar({
   onClose,
