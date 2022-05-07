@@ -9,14 +9,13 @@ import {
   TableContainer,
   useColorModeValue,
   Box,
-  Button,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
 export function TableGames() {
   return (
     <>
       <main>
-        <Box bg={useColorModeValue("white", "gray.700")} p={8}>
+        <Box bg={useColorModeValue('white', 'gray.700')} p={8}>
           <TableContainer>
             <Table variant="simple">
               <Thead>

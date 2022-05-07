@@ -1,5 +1,5 @@
-import React from "react";
-import Layout from "../components/Layout";
+import React from 'react';
+import Layout from '../components/Layout';
 import {
   Heading,
   Box,
@@ -7,15 +7,15 @@ import {
   Flex,
   Spacer,
   Button,
-} from "@chakra-ui/react";
-import { TableUsers } from "../components/Tables";
+} from '@chakra-ui/react';
+import { TableUsers } from '../components/Tables';
 
 export default function Users() {
   return (
     <>
       <main>
         <Layout>
-          <Box bg={useColorModeValue("white", "gray.700")} p={8}>
+          <Box bg={useColorModeValue('white', 'gray.700')} p={8}>
             <Flex>
               <Heading as="h1" size="lg">
                 Usuarios

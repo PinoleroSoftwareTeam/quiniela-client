@@ -1,5 +1,5 @@
-import React from "react";
-import Head from "next/head";
+import React from 'react';
+import Head from 'next/head';
 import {
   Heading,
   Box,
@@ -7,10 +7,10 @@ import {
   Flex,
   Spacer,
   Button,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
-import Layout from "../components/Layout";
-import { TableGames } from "../components/Tables";
+import Layout from '../components/Layout';
+import { TableGames } from '../components/Tables';
 
 function Games() {
   return (
@@ -20,7 +20,7 @@ function Games() {
           <title>Quiniela - Games</title>
         </Head>
         <Layout>
-          <Box bg={useColorModeValue("white", "gray.700")} p={8}>
+          <Box bg={useColorModeValue('white', 'gray.700')} p={8}>
             <Flex>
               <Heading as="h1" size="lg">
                 Partidos

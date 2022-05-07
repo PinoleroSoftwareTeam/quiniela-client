@@ -7,13 +7,13 @@ import {
   NumberInputField,
   useColorModeValue,
   Box,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
 export function FormTeams() {
   return (
     <>
       <main>
-        <Box bg={useColorModeValue("white", "gray.700")} p={8}>
+        <Box bg={useColorModeValue('white', 'gray.700')} p={8}>
           <form>
             <FormControl>
               <FormLabel htmlFor="name">Nombre</FormLabel>

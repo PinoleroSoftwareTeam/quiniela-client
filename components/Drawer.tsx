@@ -8,23 +8,22 @@ import {
   DrawerCloseButton,
   useDisclosure,
   Button,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
 interface DrawerProps {
   title: string;
-  titleAction: string;
-  children: React.ReactNode;  
+  children: React.ReactNode;
+  isOpen: boolean;
+  onClose: () => void;
 }
-export default function DrawerExample({ title, titleAction, children }: DrawerProps) {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const handleOpen = () => {
-    onOpen();
-  };
-
+export default function DrawerExample({
+  title,
+  children,
+  isOpen,
+  onClose,
+}: DrawerProps) {
   return (
     <>
-      <Button onClick={onOpen}>{titleAction}</Button>
       <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
         <DrawerOverlay />
         <DrawerContent>

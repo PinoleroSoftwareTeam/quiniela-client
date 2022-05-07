@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode } from 'react';
 import {
   Box,
   CloseButton,
@@ -9,10 +9,10 @@ import {
   Text,
   useDisclosure,
   BoxProps,
-} from "@chakra-ui/react";
-import { FiGrid, FiUser, FiGlobe, FiUsers, FiTv } from "react-icons/fi";
-import { IconType } from "react-icons";
-import { MobileNav, NavItem } from "./Navigation";
+} from '@chakra-ui/react';
+import { FiGrid, FiUser, FiGlobe, FiUsers, FiTv } from 'react-icons/fi';
+import { IconType } from 'react-icons';
+import { MobileNav, NavItem } from './Navigation';
 
 interface LinkItemProps {
   name: string;
@@ -20,12 +20,11 @@ interface LinkItemProps {
   path: string;
 }
 const LinkItems: Array<LinkItemProps> = [
-  { name: "Inicio", icon: FiGrid, path: "/" },
-  { name: "Ligas", icon: FiGlobe, path: "/leagues" },
-  { name: "Eventos", icon: FiGlobe, path: "/calendars" },
-  { name: "Usuarios", icon: FiUser, path: "/users" },
-  { name: "Equipos", icon: FiUsers, path: "/teams" },
-  { name: "Partidos", icon: FiTv, path: "/games" },
+  { name: 'Inicio', icon: FiGrid, path: '/' },
+  { name: 'Ligas', icon: FiGlobe, path: '/leagues' },
+  { name: 'Usuarios', icon: FiUser, path: '/users' },
+  { name: 'Equipos', icon: FiUsers, path: '/teams' },
+  { name: 'Partidos', icon: FiTv, path: '/games' },
 ];
 
 export default function SidebarWithHeader({
@@ -35,10 +34,10 @@ export default function SidebarWithHeader({
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
-    <Box minH="100vh" bg={useColorModeValue("gray.100", "gray.900")}>
+    <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
       <SidebarContent
         onClose={() => onClose}
-        display={{ base: "none", md: "block" }}
+        display={{ base: 'none', md: 'block' }}
       />
       <Drawer
         autoFocus={false}
@@ -47,8 +46,7 @@ export default function SidebarWithHeader({
         onClose={onClose}
         returnFocusOnClose={false}
         onOverlayClick={onClose}
-        size="full"
-      >
+        size="full">
         <DrawerContent>
           <SidebarContent onClose={onClose} />
         </DrawerContent>
@@ -68,21 +66,20 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
   return (
     <Box
       transition="3s ease"
-      bg={useColorModeValue("white", "gray.900")}
+      bg={useColorModeValue('white', 'gray.900')}
       borderRight="1px"
-      borderRightColor={useColorModeValue("gray.200", "gray.700")}
-      w={{ base: "full", md: 60 }}
+      borderRightColor={useColorModeValue('gray.200', 'gray.700')}
+      w={{ base: 'full', md: 60 }}
       pos="fixed"
       h="full"
-      {...rest}
-    >
+      {...rest}>
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
         <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
           Quiniela
         </Text>
-        <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
+        <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
-      {LinkItems.map((item) => (
+      {LinkItems.map(item => (
         <NavItem key={item.name} icon={item.icon} link={item.path}>
           {item.name}
         </NavItem>
