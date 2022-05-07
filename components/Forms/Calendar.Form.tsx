@@ -15,7 +15,7 @@ import { endpoint } from "../../constants/endpoints";
 
 const httpServices = new HttpServices();
 
-export function FormCalendar() {    
+export function FormCalendar({onClose}: {onClose: () => void}) {
     const [calendar, setCalendar] = useState({});
 
     const handleChange = (e: any) => {
@@ -31,6 +31,7 @@ export function FormCalendar() {
             })
             .then(data => {
                 console.log(data);
+                onClose();
             });
     }
 

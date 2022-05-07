@@ -12,9 +12,11 @@ import {
     Heading,
     Spacer,
     useDisclosure,
+    Button,
   } from '@chakra-ui/react'
 
 export default function Calendars() {
+    const { isOpen, onOpen, onClose } = useDisclosure();
     const columnsName = [
         {name: "id", display: "Id", key: true},
         {name: "name", display: "Name", key: false},
@@ -32,7 +34,9 @@ export default function Calendars() {
                 <Head>
                     <title>Quiniela - Calendario</title>
                 </Head>
-                                                
+                <Drawer title="Calendario" isOpen={isOpen} onClose={onClose} >
+                    <FormCalendar onClose={onClose}></FormCalendar>
+                </Drawer>                        
                 <Layout>
                     <Box bg={useColorModeValue("white", "gray.700")} p={8}>
                         <Flex>
@@ -40,9 +44,7 @@ export default function Calendars() {
                                 Equipos
                             </Heading>
                             <Spacer />                            
-                            <Drawer title="Calendario" titleAction="Nuevo" >
-                                <FormCalendar></FormCalendar>
-                            </Drawer>
+                            <Button onClick={onOpen}>Nuevo</Button>
                         </Flex>
                     </Box>
                     <GenericTable columns={columnsName} url={endpoint.calendar.getCalendar}></GenericTable>
