@@ -1,3 +1,5 @@
+import { useRouter } from 'next/router';
+import { useState } from 'react';
 import {
   FormControl,
   FormLabel,
@@ -10,7 +12,6 @@ import {
 } from '@chakra-ui/react';
 import HttpServices from '../../services/httpServices';
 import { endpoint } from '../../constants/endpoints';
-import { useState } from 'react';
 import { ICalendar } from '../../models/ICalendar';
 
 const httpServices = new HttpServices();
@@ -23,6 +24,7 @@ export function FormCalendar({
   modelCalendar: ICalendar;
 }) {
   const [calendar, setCalendar] = useState<ICalendar>(modelCalendar);
+  const router = useRouter();
 
   const handleChange = (e: any) => {
     const { value, name } = e.target;
@@ -37,7 +39,6 @@ export function FormCalendar({
           return res.json();
         })
         .then(data => {
-          console.log(data);
           onClose();
         })
         .catch(error => {

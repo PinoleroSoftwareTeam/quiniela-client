@@ -1,10 +1,4 @@
 import React from 'react';
-import Layout from '../components/Layout';
-import Head from 'next/head';
-import Drawer from '../components/Drawer';
-import GenericTable from '../components/Tables/GenericTable';
-import { endpoint } from '../constants/endpoints';
-import { FormCalendar } from '../components/Forms/Calendar.Form';
 import {
   Box,
   useColorModeValue,
@@ -15,7 +9,16 @@ import {
   Button,
 } from '@chakra-ui/react';
 import { useState } from 'react';
+import Layout from '../components/Layout';
+import Head from 'next/head';
+import Drawer from '../components/Drawer';
+import GenericTable from '../components/Tables/GenericTable';
+import { endpoint } from '../constants/endpoints';
+import { FormCalendar } from '../components/Forms/Calendar.Form';
 import { ICalendar } from '.././models/ICalendar';
+import { MessageDialog } from '../components/MessageDialog';
+import HttpServices from '../services/httpServices';
+const httpServices = new HttpServices();
 
 export default function Calendars() {
   const newCalendar = () => {
@@ -33,14 +36,38 @@ export default function Calendars() {
   };
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const dialogAlert = useDisclosure();
   const [calendar, setCalendar] = useState<ICalendar>(newCalendar());
-
+  /**
+   *
+   * @param data ICalendar
+   */
   const onClickEdit = (data: any) => {
     setCalendar(data);
     onOpen();
   };
-
-  const onClickDelete = (data: any) => {};
+  /**
+   *
+   * @param data ICalendar
+   */
+  const onClickDelete = (data: any) => {
+    setCalendar(data);
+    dialogAlert.onOpen();
+  };
+  /**
+   *
+   * @param data ICalendar
+   */
+  const onActionDelete = (data: any) => {
+    httpServices
+      .delete(endpoint.calendar.deleteCalendar, data.id)
+      .then(data => {
+        console.log(data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
   const onClickNuevo = (e: any) => {
     setCalendar(newCalendar());
@@ -48,7 +75,7 @@ export default function Calendars() {
   };
 
   const columnsName = [
-    { name: 'id', display: 'Id', key: true, isAction: false, hidde: true },
+    { name: 'id', display: 'Id', key: true, isAction: false, hidde: false },
     {
       name: 'name',
       display: 'Name',
@@ -127,6 +154,14 @@ export default function Calendars() {
             onClose={onClose}
             modelCalendar={calendar}></FormCalendar>
         </Drawer>
+        <MessageDialog
+          title="Eliminar Calnedario?"
+          isOpen={dialogAlert.isOpen}
+          onClose={dialogAlert.onClose}
+          body="Esta seguro que desele eliminar este calendario?"
+          displayAcctionButton="Eliminar"
+          data={calendar}
+          onActionDelete={onActionDelete}></MessageDialog>
         <Layout>
           <Box bg={useColorModeValue('white', 'gray.700')} p={8}>
             <Flex>

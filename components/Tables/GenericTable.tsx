@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import {
   Table,
   Thead,
@@ -14,9 +15,7 @@ import {
   Show,
   Hide,
 } from '@chakra-ui/react';
-
 import HttpServices from '../../services/httpServices';
-import { useEffect, useState } from 'react';
 
 interface ColumnData {
   name: string;

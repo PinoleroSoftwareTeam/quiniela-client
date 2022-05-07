@@ -31,4 +31,14 @@ export default class HttpService {
     });
     return response;
   }
+  async delete(endpoint: string, id: Number) {
+    const url = `${hostApi.hostApi}${endpoint}${id}`;
+    const response = fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    return response;
+  }
 }
