@@ -17,6 +17,7 @@ import {
   FiUsers,
   FiTv,
   FiServer,
+  FiPackage,
 } from 'react-icons/fi';
 import { IconType } from 'react-icons';
 import { MobileNav, NavItem } from './Navigation';
@@ -30,6 +31,7 @@ const LinkItems: Array<LinkItemProps> = [
   { name: 'Inicio', icon: FiGrid, path: '/' },
   { name: 'Faces', icon: FiServer, path: '/phases' },
   { name: 'Ligas', icon: FiGlobe, path: '/calendars' },
+  { name: 'Grupos', icon: FiPackage, path: '/groups' },
   { name: 'Usuarios', icon: FiUser, path: '/users' },
   { name: 'Equipos', icon: FiUsers, path: '/teams' },
   { name: 'Partidos', icon: FiTv, path: '/games' },

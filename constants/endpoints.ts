@@ -11,4 +11,10 @@ export const endpoint = {
     put: '/phase/',
     delete: '/phase/',
   },
+  group: {
+    get: '/group',
+    post: '/group',
+    put: '/group/',
+    delete: '/group/',
+  },
 };
