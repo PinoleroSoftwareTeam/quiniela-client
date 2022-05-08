@@ -41,13 +41,11 @@ export default function Calendars() {
   const [calendar, setCalendar] = useState<ICalendar>(newCalendar());
 
   const loadRow = () => {
-    //setLoading(true);
     httpServices
       .get(endpoint.calendar.getCalendar)
       .then(res => res.json())
       .then(data => {
         setRows(data);
-        //setLoading(false);
       });
   };
 
@@ -190,10 +188,7 @@ export default function Calendars() {
               <Button onClick={onClickNuevo}>Nuevo</Button>
             </Flex>
           </Box>
-          <GenericTable
-            columns={columnsName}
-            url={endpoint.calendar.getCalendar}
-            rows={rows}></GenericTable>
+          <GenericTable columns={columnsName} rows={rows}></GenericTable>
         </Layout>
       </main>
     </>

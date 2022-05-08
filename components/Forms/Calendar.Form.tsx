@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router';
 import { useState } from 'react';
 import {
   FormControl,
@@ -26,7 +25,6 @@ export function FormCalendar({
   onLoadData: () => void;
 }) {
   const [calendar, setCalendar] = useState<ICalendar>(modelCalendar);
-  const router = useRouter();
 
   const handleChange = (e: any) => {
     const { value, name } = e.target;

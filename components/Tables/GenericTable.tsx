@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   Table,
   Thead,
@@ -28,16 +28,7 @@ interface ColumnData {
 
 const httpServices = new HttpServices();
 
-function GenericTable({
-  columns,
-  url,
-  rows,
-}: {
-  columns: ColumnData[];
-  url: string;
-  rows: [];
-}) {
-  //const [rows, setRows] = useState([]);
+function GenericTable({ columns, rows }: { columns: ColumnData[]; rows: [] }) {
   const [isLoading, setLoading] = useState(false);
 
   if (isLoading) return <CircularProgress isIndeterminate color="green.300" />;
