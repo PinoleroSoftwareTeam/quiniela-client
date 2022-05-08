@@ -19,9 +19,11 @@ const httpServices = new HttpServices();
 export function FormCalendar({
   onClose,
   modelCalendar,
+  onLoadData,
 }: {
   onClose: () => void;
   modelCalendar: ICalendar;
+  onLoadData: () => void;
 }) {
   const [calendar, setCalendar] = useState<ICalendar>(modelCalendar);
   const router = useRouter();
@@ -40,6 +42,7 @@ export function FormCalendar({
         })
         .then(data => {
           onClose();
+          onLoadData();
         })
         .catch(error => {
           console.log(error);
@@ -52,6 +55,7 @@ export function FormCalendar({
         })
         .then(data => {
           onClose();
+          onLoadData();
         })
         .catch(error => {
           console.log(error);

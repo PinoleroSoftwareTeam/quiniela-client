@@ -31,23 +31,14 @@ const httpServices = new HttpServices();
 function GenericTable({
   columns,
   url,
+  rows,
 }: {
   columns: ColumnData[];
   url: string;
+  rows: [];
 }) {
-  const [rows, setRows] = useState([]);
+  //const [rows, setRows] = useState([]);
   const [isLoading, setLoading] = useState(false);
-
-  useEffect(() => {
-    setLoading(true);
-    httpServices
-      .get(url)
-      .then(res => res.json())
-      .then(data => {
-        setRows(data);
-        setLoading(false);
-      });
-  }, []);
 
   if (isLoading) return <CircularProgress isIndeterminate color="green.300" />;
 

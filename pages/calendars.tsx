@@ -8,7 +8,7 @@ import {
   useDisclosure,
   Button,
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
 import Head from 'next/head';
 import Drawer from '../components/Drawer';
@@ -37,7 +37,23 @@ export default function Calendars() {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const dialogAlert = useDisclosure();
+  const [rows, setRows] = useState<[]>([]);
   const [calendar, setCalendar] = useState<ICalendar>(newCalendar());
+
+  const loadRow = () => {
+    //setLoading(true);
+    httpServices
+      .get(endpoint.calendar.getCalendar)
+      .then(res => res.json())
+      .then(data => {
+        setRows(data);
+        //setLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    loadRow();
+  }, []);
   /**
    *
    * @param data ICalendar
@@ -63,6 +79,7 @@ export default function Calendars() {
       .delete(endpoint.calendar.deleteCalendar, data.id)
       .then(data => {
         console.log(data);
+        loadRow();
       })
       .catch(error => {
         console.log(error);
@@ -152,7 +169,8 @@ export default function Calendars() {
         <Drawer title="Calendario" isOpen={isOpen} onClose={onClose}>
           <FormCalendar
             onClose={onClose}
-            modelCalendar={calendar}></FormCalendar>
+            modelCalendar={calendar}
+            onLoadData={loadRow}></FormCalendar>
         </Drawer>
         <MessageDialog
           title="Eliminar Calnedario?"
@@ -174,7 +192,8 @@ export default function Calendars() {
           </Box>
           <GenericTable
             columns={columnsName}
-            url={endpoint.calendar.getCalendar}></GenericTable>
+            url={endpoint.calendar.getCalendar}
+            rows={rows}></GenericTable>
         </Layout>
       </main>
     </>
