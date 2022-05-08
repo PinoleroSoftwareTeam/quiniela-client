@@ -14,35 +14,30 @@ import Head from 'next/head';
 import Drawer from '../components/Drawer';
 import GenericTable from '../components/Tables/GenericTable';
 import { endpoint } from '../constants/endpoints';
-import { FormCalendar } from '../components/Forms/Calendar.Form';
-import { ICalendar } from '.././models/ICalendar';
+import { FormPhase } from '../components/Forms/Phase.Form';
+import { IPhase } from '../models/IPhase';
 import { MessageDialog } from '../components/MessageDialog';
 import HttpServices from '../services/httpServices';
 const httpServices = new HttpServices();
 
-export default function Calendars() {
-  const newCalendar = () => {
-    let newModelCalendar: ICalendar = {
+export default function Phase() {
+  const newPhase = () => {
+    let newModelPhase: IPhase = {
       id: 0,
       name: '',
       description: '',
-      dateStart: new Date().toString(),
-      dateEnd: new Date().toString(),
-      year: new Date().getFullYear(),
-      scoreWin: 0,
-      scorePoint: 0,
     };
-    return newModelCalendar;
+    return newModelPhase;
   };
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const drawerForm = useDisclosure();
   const dialogAlert = useDisclosure();
   const [rows, setRows] = useState<[]>([]);
-  const [calendar, setCalendar] = useState<ICalendar>(newCalendar());
+  const [phase, setPhase] = useState<IPhase>(newPhase());
 
-  const loadRow = () => {
+  const loadRows = () => {
     httpServices
-      .get(endpoint.calendar.get)
+      .get(endpoint.phase.get)
       .then(res => res.json())
       .then(data => {
         setRows(data);
@@ -50,34 +45,24 @@ export default function Calendars() {
   };
 
   useEffect(() => {
-    loadRow();
+    loadRows();
   }, []);
-  /**
-   *
-   * @param data ICalendar
-   */
+
   const onClickEdit = (data: any) => {
-    setCalendar(data);
-    onOpen();
+    setPhase(data);
+    drawerForm.onOpen();
   };
-  /**
-   *
-   * @param data ICalendar
-   */
+
   const onClickDelete = (data: any) => {
-    setCalendar(data);
+    setPhase(data);
     dialogAlert.onOpen();
   };
-  /**
-   *
-   * @param data ICalendar
-   */
+
   const onActionDelete = (data: any) => {
     httpServices
-      .delete(endpoint.calendar.delete, data.id)
+      .delete(endpoint.phase.delete, data.id)
       .then(data => {
-        console.log(data);
-        loadRow();
+        loadRows();
       })
       .catch(error => {
         console.log(error);
@@ -85,8 +70,8 @@ export default function Calendars() {
   };
 
   const onClickNuevo = (e: any) => {
-    setCalendar(newCalendar());
-    onOpen();
+    setPhase(newPhase());
+    drawerForm.onOpen();
   };
 
   const columnsName = [
@@ -101,41 +86,6 @@ export default function Calendars() {
     {
       name: 'description',
       display: 'Description',
-      key: false,
-      isAction: false,
-      hidde: false,
-    },
-    {
-      name: 'dateStart',
-      display: 'Date Start',
-      key: false,
-      isAction: false,
-      hidde: false,
-    },
-    {
-      name: 'dateEnd',
-      display: 'Date End',
-      key: false,
-      isAction: false,
-      hidde: false,
-    },
-    {
-      name: 'year',
-      display: 'Year',
-      key: false,
-      isAction: false,
-      hidde: false,
-    },
-    {
-      name: 'scoreWin',
-      display: 'Score Win',
-      key: false,
-      isAction: false,
-      hidde: false,
-    },
-    {
-      name: 'scorePoint',
-      display: 'Score Point',
       key: false,
       isAction: false,
       hidde: false,
@@ -162,27 +112,30 @@ export default function Calendars() {
     <>
       <main>
         <Head>
-          <title>Quiniela - Calendario</title>
+          <title>Quiniela - Jornadas</title>
         </Head>
-        <Drawer title="Calendario" isOpen={isOpen} onClose={onClose}>
-          <FormCalendar
-            onClose={onClose}
-            modelCalendar={calendar}
-            onLoadData={loadRow}></FormCalendar>
+        <Drawer
+          title="Calendario"
+          isOpen={drawerForm.isOpen}
+          onClose={drawerForm.onClose}>
+          <FormPhase
+            onClose={drawerForm.onClose}
+            modelPhase={phase}
+            onLoadData={loadRows}></FormPhase>
         </Drawer>
         <MessageDialog
           title="Eliminar Calnedario?"
           isOpen={dialogAlert.isOpen}
           onClose={dialogAlert.onClose}
-          body="Esta seguro que desele eliminar este calendario?"
+          body="Esta seguro que desele eliminar esta jornada del catalogo?"
           displayAcctionButton="Eliminar"
-          data={calendar}
+          data={phase}
           onActionDelete={onActionDelete}></MessageDialog>
         <Layout>
           <Box bg={useColorModeValue('white', 'gray.700')} p={8}>
             <Flex>
               <Heading as="h1" size="lg">
-                Equipos
+                Catalogos Jornadas
               </Heading>
               <Spacer />
               <Button onClick={onClickNuevo}>Nuevo</Button>

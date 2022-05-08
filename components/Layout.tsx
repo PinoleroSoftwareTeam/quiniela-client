@@ -10,7 +10,14 @@ import {
   useDisclosure,
   BoxProps,
 } from '@chakra-ui/react';
-import { FiGrid, FiUser, FiGlobe, FiUsers, FiTv } from 'react-icons/fi';
+import {
+  FiGrid,
+  FiUser,
+  FiGlobe,
+  FiUsers,
+  FiTv,
+  FiServer,
+} from 'react-icons/fi';
 import { IconType } from 'react-icons';
 import { MobileNav, NavItem } from './Navigation';
 
@@ -21,6 +28,7 @@ interface LinkItemProps {
 }
 const LinkItems: Array<LinkItemProps> = [
   { name: 'Inicio', icon: FiGrid, path: '/' },
+  { name: 'Faces', icon: FiServer, path: '/phases' },
   { name: 'Ligas', icon: FiGlobe, path: '/calendars' },
   { name: 'Usuarios', icon: FiUser, path: '/users' },
   { name: 'Equipos', icon: FiUsers, path: '/teams' },

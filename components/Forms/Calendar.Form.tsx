@@ -8,6 +8,7 @@ import {
   useColorModeValue,
   Box,
   Button,
+  useToast,
 } from '@chakra-ui/react';
 import HttpServices from '../../services/httpServices';
 import { endpoint } from '../../constants/endpoints';
@@ -25,6 +26,7 @@ export function FormCalendar({
   onLoadData: () => void;
 }) {
   const [calendar, setCalendar] = useState<ICalendar>(modelCalendar);
+  const toast = useToast();
 
   const handleChange = (e: any) => {
     const { value, name } = e.target;
@@ -34,11 +36,21 @@ export function FormCalendar({
   const handleOnClickSave = (e: any) => {
     if (calendar.id > 0) {
       httpServices
-        .put(endpoint.calendar.putCalendar, calendar.id, calendar)
+        .put(endpoint.calendar.put, calendar.id, calendar)
         .then(res => {
           return res.json();
         })
         .then(data => {
+          if (data.error) {
+            toast({
+              title: 'Error',
+              description: data.message,
+              status: 'error',
+              duration: 4000,
+              isClosable: true,
+            });
+            return;
+          }
           onClose();
           onLoadData();
         })
@@ -47,11 +59,21 @@ export function FormCalendar({
         });
     } else
       httpServices
-        .post(endpoint.calendar.postCalendar, calendar)
+        .post(endpoint.calendar.post, calendar)
         .then(res => {
           return res.json();
         })
         .then(data => {
+          if (data.error) {
+            toast({
+              title: 'Error',
+              description: data.message,
+              status: 'error',
+              duration: 4000,
+              isClosable: true,
+            });
+            return;
+          }
           onClose();
           onLoadData();
         })
