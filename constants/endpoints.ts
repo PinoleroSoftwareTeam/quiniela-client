@@ -23,4 +23,11 @@ export const endpoint = {
     put: '/team/',
     delete: '/team/',
   },
+  groupTeam: {
+    get: '/groupTeam',
+    post: '/groupTeam',
+    put: '/groupTeam/',
+    delete: '/groupTeam/',
+    getGroupTeamList: '/groupTeam/GroupTeamList',
+  },
 };
