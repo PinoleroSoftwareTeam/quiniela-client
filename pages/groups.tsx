@@ -41,7 +41,7 @@ export default function Group() {
 
   const loadRows = () => {
     httpServices
-      .get(endpoint.group.get)
+      .get(endpoint.group.getGroupList)
       .then(res => res.json())
       .then(data => {
         setRows(data);
@@ -112,7 +112,7 @@ export default function Group() {
       hidde: false,
     },
     {
-      name: 'calendarId',
+      name: 'calendarName',
       display: 'Torneo',
       key: false,
       isAction: false,
