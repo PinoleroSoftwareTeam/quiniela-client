@@ -153,7 +153,7 @@ export default function Group() {
             calendars={calendars}></FormGroup>
         </Drawer>
         <MessageDialog
-          title="Eliminar Calnedario?"
+          title="Eliminar Grupo?"
           isOpen={dialogAlert.isOpen}
           onClose={dialogAlert.onClose}
           body="Esta seguro que desele eliminar este grupo del catalogo?"
