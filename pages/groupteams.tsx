@@ -16,7 +16,7 @@ import GenericTable from '../components/Tables/GenericTable';
 import { endpoint } from '../constants/endpoints';
 import { FormGroupTeam } from '../components/Forms/GroupTeam.Form';
 import { IGroupTeam } from '../models/IGroupTeam';
-import { IGroup } from '../models/IGroup';
+import { IGroupList } from '../Dto/IGroupList';
 import { ITeam } from '../models/ITeam';
 import { MessageDialog } from '../components/MessageDialog';
 import HttpServices from '../services/httpServices';
@@ -35,7 +35,7 @@ export default function GroupTeam() {
   const drawerForm = useDisclosure();
   const dialogAlert = useDisclosure();
   const [rows, setRows] = useState<[]>([]);
-  const [groups, setGroups] = useState<IGroup[]>([]);
+  const [groups, setGroups] = useState<IGroupList[]>([]);
   const [teams, setTeams] = useState<ITeam[]>([]);
   const [groupTeam, setGroupTeam] = useState<IGroupTeam>(newGroupTeam());
 
@@ -50,7 +50,7 @@ export default function GroupTeam() {
 
   const loadSelect = () => {
     httpServices
-      .get(endpoint.group.get)
+      .get(endpoint.group.getGroupList)
       .then(res => res.json())
       .then(data => {
         setGroups(data);

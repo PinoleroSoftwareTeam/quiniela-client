@@ -13,7 +13,7 @@ import {
 } from '@chakra-ui/react';
 import HttpServices from '../../services/httpServices';
 import { endpoint } from '../../constants/endpoints';
-import { IGroup } from '../../models/IGroup';
+import { IGroupList } from '../../Dto/IGroupList';
 import { ITeam } from '../../models/ITeam';
 import { IGroupTeam } from '../../models/IGroupTeam';
 
@@ -29,7 +29,7 @@ export function FormGroupTeam({
   onClose: () => void;
   modelGroupTeam: IGroupTeam;
   onLoadData: () => void;
-  groups: IGroup[];
+  groups: IGroupList[];
   teams: ITeam[];
 }) {
   const [groupTeam, setGroupTeam] = useState<IGroupTeam>(modelGroupTeam);
@@ -94,7 +94,7 @@ export function FormGroupTeam({
       <main>
         <Box bg={useColorModeValue('white', 'gray.700')} p={8}>
           <FormControl>
-            <FormLabel htmlFor="groupId">Torneo</FormLabel>
+            <FormLabel htmlFor="groupId">Grupo - Torneo</FormLabel>
             <Select
               id="groupId"
               name="groupId"
@@ -102,7 +102,9 @@ export function FormGroupTeam({
               defaultValue={groupTeam.groupId.toString()}
               onChange={handleChange}>
               {groups.map(group => (
-                <option value={group.id.toString()}>{group.name}</option>
+                <option value={group.id.toString()}>
+                  {group.name} - {group.calendarName}
+                </option>
               ))}
             </Select>
           </FormControl>
