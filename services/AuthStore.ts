@@ -16,10 +16,17 @@ const clear = () => {
   localStorage.removeItem(userKey);
 };
 
+const isAuthenticated = () => {
+  var token = getToken();
+  var user = getUser();
+  return token && user;
+};
+
 export default {
   getToken,
   setToken,
   getUser,
   setUser,
   clear,
+  isAuthenticated,
 };

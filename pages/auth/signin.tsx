@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import {
   Flex,
@@ -32,6 +32,11 @@ interface ILogin {
 
 export default function SignIn() {
   const router = useRouter();
+
+  useEffect(() => {
+    if (AuthStore.isAuthenticated()) router.push('/');
+  }, []);
+
   const [showPassword, setShowPassword] = useState(false);
   const [login, setLogin] = useState<ILogin>({ email: '', password: '' });
   const toast = useToast();

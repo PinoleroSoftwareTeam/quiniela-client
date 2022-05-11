@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import {
   Flex,
@@ -20,6 +20,8 @@ import HttpServices from '../../services/httpServices';
 import { FaUserAlt, FaLock, FaAddressCard, FaAt } from 'react-icons/fa';
 import { IRegister } from '../../Dto/IRegister';
 import { endpoint } from '../../constants/endpoints';
+import AuthStore from '../../services/AuthStore';
+
 const CFaUserAlt = chakra(FaUserAlt);
 const CFaLock = chakra(FaLock);
 const CFaAddressCard = chakra(FaAddressCard);
@@ -38,6 +40,11 @@ export default function SignIn() {
     return newModelRegister;
   };
   const router = useRouter();
+
+  useEffect(() => {
+    if (AuthStore.isAuthenticated()) router.push('/');
+  }, []);
+
   const [showPassword, setShowPassword] = useState(false);
   const [register, setRegister] = useState<IRegister>(newRegister());
   const toast = useToast();

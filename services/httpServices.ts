@@ -1,9 +1,15 @@
 import { hostApi } from '../constants/hostApi';
-
+import AuthStore from '../services/AuthStore';
 export default class HttpService {
   async get(endpoint: string) {
     const url = `${hostApi.hostApi}${endpoint}`;
-    const response = fetch(url);
+    const response = fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: this.getToken(),
+      },
+    });
     return response;
   }
 
@@ -26,6 +32,7 @@ export default class HttpService {
       body: JSON.stringify(data),
       headers: {
         'Content-Type': 'application/json',
+        Authorization: this.getToken(),
       },
     });
     return response;
@@ -36,8 +43,14 @@ export default class HttpService {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: this.getToken(),
       },
     });
     return response;
+  }
+  getToken() {
+    const token = AuthStore.getToken();
+    const result = `Bearer ${token}`;
+    return result;
   }
 }
