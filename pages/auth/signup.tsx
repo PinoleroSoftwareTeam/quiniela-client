@@ -47,7 +47,6 @@ export default function SignIn() {
   const handleChange = (e: any) => {
     const { value, name } = e.target;
     setRegister({ ...register, [name]: value });
-    console.log(register);
   };
 
   const handleOnClickRegister = (e: any) => {
