@@ -24,7 +24,7 @@ export default function DrawerExample({
 }: DrawerProps) {
   return (
     <>
-      <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
+      <Drawer isOpen={isOpen} placement="right" onClose={onClose} size={'sm'}>
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
@@ -33,10 +33,10 @@ export default function DrawerExample({
           <DrawerBody>{children}</DrawerBody>
 
           <DrawerFooter>
-            <Button variant="outline" mr={3} onClick={onClose}>
+            <Button mr={3} onClick={onClose}>
               Cancel
             </Button>
-            <Button colorScheme="blue">Save</Button>
+            <Button>Save</Button>
           </DrawerFooter>
         </DrawerContent>
       </Drawer>

@@ -35,4 +35,7 @@ export const endpoint = {
     delete: '/groupTeam/',
     getGroupTeamList: '/groupTeam/GroupTeamList',
   },
+  game: {
+    get: '/game',
+  },
 };

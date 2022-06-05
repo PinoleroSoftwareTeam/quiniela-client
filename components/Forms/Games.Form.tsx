@@ -8,13 +8,28 @@ import {
   useColorModeValue,
   Box,
 } from '@chakra-ui/react';
+import HttpServices from '../../services/httpServices';
+import { useState } from 'react';
+import { ISelected, IGame } from '../../models';
 
-export function FormGames() {
+interface FormGamesProps {
+  onClose: () => void;
+  modelGame: IGame;
+  onLoadData: () => void;
+}
+export function FormGames({ onClose, modelGame, onLoadData }: FormGamesProps) {
+  const httpSservices = new HttpServices();
+
+  const [games, setGames] = useState<IGame>({});
+  const [gropu, setGroup] = useState<ISelected[]>([]);
+  const [phase, setPhase] = useState<ISelected[]>([]);
+  const [team, setTeam] = useState<ISelected[]>([]);
+
   return (
     <>
       <main>
         <Box bg={useColorModeValue('white', 'gray.700')} p={8}>
-          <h1>Games</h1>
+          <h1>Partidos</h1>
           <form>
             <FormControl>
               <FormLabel htmlFor="date">Fecha</FormLabel>
