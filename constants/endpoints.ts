@@ -8,12 +8,14 @@ export const endpoint = {
     post: '/calendar',
     put: '/calendar/',
     delete: '/calendar/',
+    selected: '/calendar/selected',
   },
   phase: {
     get: '/phase',
     post: '/phase',
     put: '/phase/',
     delete: '/phase/',
+    selected: '/phase/selected',
   },
   group: {
     get: '/group',
@@ -21,12 +23,14 @@ export const endpoint = {
     put: '/group/',
     delete: '/group/',
     getGroupList: '/group/GroupList',
+    SelectedById: '/group/SelectedById/',
   },
   team: {
     get: '/team',
     post: '/team',
     put: '/team/',
     delete: '/team/',
+    selected: '/phase/selected',
   },
   groupTeam: {
     get: '/groupTeam',
@@ -34,8 +38,13 @@ export const endpoint = {
     put: '/groupTeam/',
     delete: '/groupTeam/',
     getGroupTeamList: '/groupTeam/GroupTeamList',
+    SelectedById: '/groupTeam/SelectedById/',
   },
   game: {
     get: '/game',
+    post: '/game',
+    put: '/game/',
+    delete: '/game/',
+    getGameList: '/game/GameList',
   },
 };

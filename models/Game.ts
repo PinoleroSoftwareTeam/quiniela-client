@@ -9,7 +9,7 @@ export class Game implements IGame {
   team2Id: number;
   pointTeam1: number;
   pointTeam2: number;
-  groupTeamId: number;
+  groupId: number;
 
   constructor(
     id: number = 0,
@@ -20,7 +20,7 @@ export class Game implements IGame {
     team2Id: number = 0,
     pointTeam1: number = 0,
     pointTeam2: number = 0,
-    groupTeamId: number = 0
+    groupId: number = 0
   ) {
     this.id = id;
     this.date = date;
@@ -30,6 +30,6 @@ export class Game implements IGame {
     this.team2Id = team2Id;
     this.pointTeam1 = pointTeam1;
     this.pointTeam2 = pointTeam2;
-    this.groupTeamId = groupTeamId;
+    this.groupId = groupId;
   }
 }

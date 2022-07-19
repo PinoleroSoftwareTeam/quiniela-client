@@ -36,7 +36,6 @@ export default function DrawerExample({
             <Button mr={3} onClick={onClose}>
               Cancel
             </Button>
-            <Button>Save</Button>
           </DrawerFooter>
         </DrawerContent>
       </Drawer>

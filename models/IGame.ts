@@ -7,5 +7,5 @@ export interface IGame {
   team2Id: number;
   pointTeam1: number;
   pointTeam2: number;
-  groupTeamId: number;
+  groupId: number;
 }
