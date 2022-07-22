@@ -8,6 +8,7 @@ import {
   Spacer,
   Button,
   useDisclosure,
+  useToast,
 } from '@chakra-ui/react';
 
 import Drawer from '../components/Drawer';
@@ -22,10 +23,12 @@ import HttpServices from '../services/httpServices';
 import { endpoint } from '../constants/endpoints';
 import GenericTable from '../components/Tables/GenericTable';
 import { MessageDialog } from '../components/MessageDialog';
+import { ThemeContext } from '@emotion/react';
 
 function Games() {
   const httpServices = new HttpServices();
   const dialogAlert = useDisclosure();
+  const toast = useToast();
   const { onClose, onOpen, isOpen } = useDisclosure();
   const [rows, setRows] = useState<[]>([]);
   const [calendar, setCalendar] = useState<ISelected>({});
@@ -68,18 +71,68 @@ function Games() {
 
   const onClickDelete = (data: any) => {
     setGame(data);
-    onOpen();
+    dialogAlert.onOpen();
   };
 
   const onActionDelete = (data: any) => {
     httpServices
-      .delete(endpoint.groupTeam.delete, data.id)
+      .delete(endpoint.game.delete, data.id)
+      .then(res => {
+        return res.json();
+      })
       .then(data => {
+        if (data.error) {
+          toast({
+            title: 'Error',
+            description: data.message,
+            status: 'error',
+            duration: 4000,
+            isClosable: true,
+          });
+          return;
+        }
         loadRows();
       })
       .catch(error => {
         console.log(error);
       });
+  };
+
+  const onClickImport = () => {
+    const fileSelector = document.createElement('input');
+    fileSelector.setAttribute('type', 'file');
+    fileSelector.setAttribute('multiple', 'multiple');
+    fileSelector.setAttribute('accept', '.xlsx');
+    fileSelector.onchange = files => {
+      let formData = new FormData();
+      let file =
+        fileSelector.files && fileSelector.files.length > 0
+          ? fileSelector.files[0]
+          : '';
+      formData.append('file', file);
+      httpServices
+        .upload(endpoint.game.uploadFile, formData)
+        .then(res => {
+          return res.json();
+        })
+        .then(data => {
+          if (data.error) {
+            toast({
+              title: 'Error',
+              description: data.message,
+              status: 'error',
+              duration: 4000,
+              isClosable: true,
+            });
+            return;
+          }
+          loadRows();
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    };
+    fileSelector.click();
   };
 
   const columnsName = [
@@ -181,6 +234,7 @@ function Games() {
               </Heading>
               <Spacer />
               <Button onClick={onOpen}>Nuevo</Button>
+              <Button onClick={onClickImport}>Importar</Button>
             </Flex>
           </Box>
           <br />

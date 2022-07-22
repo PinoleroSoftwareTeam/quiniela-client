@@ -11,7 +11,7 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import HttpServices from '../../services/httpServices';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ISelected, IGame } from '../../models';
 import { endpoint } from '../../constants/endpoints';
 
@@ -76,6 +76,12 @@ export function FormGames({
       });
     loadTeams(null);
   };
+
+  useEffect(() => {
+    if (game.id > 0) {
+      loadGroup(game.calendarId);
+    }
+  }, []);
 
   const create = () => {
     httpServices

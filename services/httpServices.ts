@@ -53,4 +53,13 @@ export default class HttpService {
     const result = `Bearer ${token}`;
     return result;
   }
+
+  async upload(endpoint: string, data: any) {
+    const url = `${hostApi.hostApi}${endpoint}`;
+    const response = fetch(url, {
+      method: 'POST',
+      body: data,
+    });
+    return response;
+  }
 }

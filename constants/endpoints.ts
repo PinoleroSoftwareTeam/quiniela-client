@@ -46,5 +46,6 @@ export const endpoint = {
     put: '/game/',
     delete: '/game/',
     getGameList: '/game/GameList',
+    uploadFile: '/game/UploadFile',
   },
 };
