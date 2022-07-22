@@ -1,4 +1,6 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
+import { endpoint } from '../constants/endpoints';
+import { useRouter } from 'next/router';
 import {
   Box,
   CloseButton,
@@ -22,21 +24,29 @@ import {
 } from 'react-icons/fi';
 import { IconType } from 'react-icons';
 import { MobileNav, NavItem } from './Navigation';
+import HttpServices from '../services/httpServices';
+import AuthStore from '../services/AuthStore';
 
 interface LinkItemProps {
   name: string;
   icon: IconType;
   path: string;
+  role: string;
 }
 const LinkItems: Array<LinkItemProps> = [
-  { name: 'Inicio', icon: FiGrid, path: '/' },
-  { name: 'Faces', icon: FiServer, path: '/phases' },
-  { name: 'Ligas', icon: FiGlobe, path: '/calendars' },
-  { name: 'Equipos', icon: FiUsers, path: '/teams' },
-  { name: 'Grupos', icon: FiPackage, path: '/groups' },
-  { name: 'Grupos Torneo', icon: FiCodesandbox, path: '/groupteams' },
-  { name: 'Usuarios', icon: FiUser, path: '/users' },
-  { name: 'Partidos', icon: FiTv, path: '/games' },
+  { name: 'Inicio', icon: FiGrid, path: '/', role: '' },
+  { name: 'Faces', icon: FiServer, path: '/phases', role: 'Admin' },
+  { name: 'Ligas', icon: FiGlobe, path: '/calendars', role: 'Admin' },
+  { name: 'Equipos', icon: FiUsers, path: '/teams', role: 'Admin' },
+  { name: 'Grupos', icon: FiPackage, path: '/groups', role: 'Admin' },
+  {
+    name: 'Grupos Torneo',
+    icon: FiCodesandbox,
+    path: '/groupteams',
+    role: 'Admin',
+  },
+  { name: 'Usuarios', icon: FiUser, path: '/users', role: 'Admin' },
+  { name: 'Partidos', icon: FiTv, path: '/games', role: 'Admin' },
 ];
 
 export default function SidebarWithHeader({
@@ -44,6 +54,31 @@ export default function SidebarWithHeader({
 }: {
   children?: ReactNode;
 }) {
+  const router = useRouter();
+  const [userData, setUserData] = useState<any>({});
+
+  useEffect(() => {
+    let user = AuthStore.getUser();
+    user = user ? user : {};
+    setUserData(user);
+    if (!AuthStore.isAuthenticated()) {
+      router.push('/auth/signin');
+      return;
+    }
+    new HttpServices()
+      .get(endpoint.auth.ping)
+      .then(res => {
+        if (res.status == 200) return;
+        if (res.status == 401) {
+          AuthStore.clear();
+          router.push('/auth/signin');
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, []);
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
@@ -63,7 +98,7 @@ export default function SidebarWithHeader({
           <SidebarContent onClose={onClose} />
         </DrawerContent>
       </Drawer>
-      <MobileNav onOpen={onOpen} />
+      <MobileNav onOpen={onOpen} userData={userData} />
       <Box ml={{ base: 0, md: 60 }} p="4">
         {children}
       </Box>
@@ -75,6 +110,12 @@ interface SidebarProps extends BoxProps {
   onClose: () => void;
 }
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
+  const [userData, setUserData] = useState<any>({});
+  useEffect(() => {
+    let user = AuthStore.getUser();
+    user = user ? user : {};
+    setUserData(user);
+  }, []);
   return (
     <Box
       transition="3s ease"
@@ -91,11 +132,21 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         </Text>
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
-      {LinkItems.map(item => (
-        <NavItem key={item.name} icon={item.icon} link={item.path}>
-          {item.name}
-        </NavItem>
-      ))}
+      {LinkItems.map(item => {
+        if (userData.administrator) {
+          return (
+            <NavItem key={item.name} icon={item.icon} link={item.path}>
+              {item.name}
+            </NavItem>
+          );
+        } else if (!item.role) {
+          return (
+            <NavItem key={item.name} icon={item.icon} link={item.path}>
+              {item.name}
+            </NavItem>
+          );
+        }
+      })}
     </Box>
   );
 };

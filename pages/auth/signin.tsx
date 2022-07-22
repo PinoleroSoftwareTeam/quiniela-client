@@ -34,7 +34,15 @@ export default function SignIn() {
   const router = useRouter();
 
   useEffect(() => {
-    if (AuthStore.isAuthenticated()) router.push('/');
+    new HttpServices()
+      .get(endpoint.auth.ping)
+      .then(res => {
+        if (res.status == 200) router.push('/');
+        return;
+      })
+      .then(data => {
+        console.log(data);
+      });
   }, []);
 
   const [showPassword, setShowPassword] = useState(false);

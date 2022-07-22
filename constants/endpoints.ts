@@ -2,6 +2,7 @@ export const endpoint = {
   auth: {
     signin: '/account/Signin',
     signup: '/account/signup',
+    ping: '/account/ping',
   },
   calendar: {
     get: '/calendar',
