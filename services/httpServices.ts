@@ -20,6 +20,7 @@ export default class HttpService {
       body: JSON.stringify(data),
       headers: {
         'Content-Type': 'application/json',
+        Authorization: this.getToken(),
       },
     });
     return response;

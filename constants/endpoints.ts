@@ -49,4 +49,11 @@ export const endpoint = {
     getGameList: '/game/GameList',
     uploadFile: '/game/UploadFile',
   },
+  quiniela: {
+    get: '/quiniela',
+    post: '/quiniela',
+    put: '/quiniela/',
+    delete: '/quiniela/',
+    getList: '/quiniela/QuinielaList',
+  },
 };

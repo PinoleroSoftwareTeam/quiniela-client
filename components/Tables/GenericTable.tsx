@@ -14,6 +14,7 @@ import {
   Button,
   Show,
   Hide,
+  Switch,
 } from '@chakra-ui/react';
 import HttpServices from '../../services/httpServices';
 
@@ -24,6 +25,9 @@ interface ColumnData {
   hidde: boolean;
   isAction: boolean;
   action?: any;
+  isCheck?: boolean;
+  event?: any;
+  e: any;
 }
 
 const httpServices = new HttpServices();
@@ -61,18 +65,30 @@ function GenericTable({ columns, rows }: { columns: ColumnData[]; rows: [] }) {
                   <Tr key={rowIndex}>
                     {columns.map((column, columnIndex) =>
                       !column.isAction ? (
-                        !column.hidde ? (
-                          <Show>
-                            <Td key={keyName ? row[keyName] : rowIndex}>
-                              {row[column.name]}
-                            </Td>
-                          </Show>
+                        !column.isCheck ? (
+                          !column.hidde ? (
+                            <Show>
+                              <Td key={keyName ? row[keyName] : rowIndex}>
+                                {row[column.name]}
+                              </Td>
+                            </Show>
+                          ) : (
+                            <Hide>
+                              <Td key={keyName ? row[keyName] : rowIndex}>
+                                {row[column.name]}
+                              </Td>
+                            </Hide>
+                          )
                         ) : (
-                          <Hide>
-                            <Td key={keyName ? row[keyName] : rowIndex}>
-                              {row[column.name]}
-                            </Td>
-                          </Hide>
+                          <Td>
+                            <Switch
+                              key={keyName ? row[keyName] : rowIndex}
+                              isChecked={
+                                row[column.name] ? row[column.name] : false
+                              }
+                              onChange={e => column.event(e, row)}
+                            />
+                          </Td>
                         )
                       ) : (
                         <Td>
