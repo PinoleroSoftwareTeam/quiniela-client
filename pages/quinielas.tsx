@@ -12,22 +12,25 @@ import {
 } from '@chakra-ui/react';
 
 import Drawer from '../components/Drawer';
+import Modal from '../components/WindowModal';
 import Layout from '../components/Layout';
 import HttpServices from '../services/httpServices';
 import { endpoint } from '../constants/endpoints';
 import GenericTable from '../components/Tables/GenericTable';
 import { MessageDialog } from '../components/MessageDialog';
 import { IQuiniela, Quiniela, ISelected } from '../models';
-import { FormQuiniela } from '../components/Forms';
+import { FormQuiniela, FormQuinielaPunterModal } from '../components/Forms';
 
 function Quinielas() {
   const httpServices = new HttpServices();
   const dialogAlert = useDisclosure();
+  const modalUser = useDisclosure();
   const toast = useToast();
   const { onClose, onOpen, isOpen } = useDisclosure();
   const [quiniela, setQuiniela] = useState<IQuiniela>(new Quiniela());
   const [calendar, setCalendar] = useState<ISelected>({});
   const [rows, setRows] = useState<[]>([]);
+  const [quinielaPunters, setQuinielaPunters] = useState<[]>([]);
 
   const loadRows = () => {
     httpServices
@@ -112,6 +115,11 @@ function Quinielas() {
       });
   };
 
+  const onAddUser = (data: any) => {
+    setQuiniela(data);
+    modalUser.onOpen();
+  };
+
   const columnsName = [
     { name: 'id', display: 'Id', key: true, isAction: false, hidde: true },
     {
@@ -160,6 +168,14 @@ function Quinielas() {
       action: onClickDelete,
       hidde: false,
     },
+    {
+      name: 'Agregar',
+      display: 'Agregar',
+      key: false,
+      isAction: true,
+      action: onAddUser,
+      hidde: false,
+    },
   ];
 
   return (
@@ -182,6 +198,18 @@ function Quinielas() {
         displayAcctionButton="Eliminar"
         data={quiniela}
         onActionDelete={onActionDelete}></MessageDialog>
+      <Modal
+        title={quiniela.name}
+        isOpen={modalUser.isOpen}
+        onClose={modalUser.onClose}
+        closeByClickCancel={false}
+        size="full">
+        <FormQuinielaPunterModal
+          quinielaId={quiniela.id}
+          quinielaPunters={quinielaPunters}
+          onLoadData={loadRows}
+          onClose={modalUser.onClose}></FormQuinielaPunterModal>
+      </Modal>
       <Layout>
         <Box bg={useColorModeValue('white', 'gray.700')} p={8}>
           <Flex>

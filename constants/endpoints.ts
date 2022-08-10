@@ -56,4 +56,11 @@ export const endpoint = {
     delete: '/quiniela/',
     getList: '/quiniela/QuinielaList',
   },
+  quinielaPunter: {
+    get: '/quinielapunter',
+    post: '/quinielapunter',
+    put: '/quinielapunter/',
+    delete: '/quinielapunter/',
+    getQuinielaPunterList: '/quinielapunter/QuinielaPunterList/',
+  },
 };

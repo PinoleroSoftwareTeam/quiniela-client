@@ -27,7 +27,6 @@ interface ColumnData {
   action?: any;
   isCheck?: boolean;
   event?: any;
-  e: any;
 }
 
 const httpServices = new HttpServices();

@@ -6,7 +6,8 @@ export { IGroupTeam } from './IGroupTeam.ts';
 export { IPhase } from './IPhase.ts';
 export { ISelected } from './ISelected.ts';
 export { ITeam } from './ITeam.ts';
-export { IQuiniela } from './IQuiniela';
+export { IQuiniela } from './IQuiniela.ts';
+export { IQuinielaPunter } from './IQuinielaPunter.ts';
 
 // Class
 export { Game } from './Game.ts';
