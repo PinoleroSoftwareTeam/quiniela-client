@@ -63,4 +63,7 @@ export const endpoint = {
     delete: '/quinielapunter/',
     getQuinielaPunterList: '/quinielapunter/QuinielaPunterList/',
   },
+  dashboard: {
+    getByUser: '/dashboard/',
+  },
 };
