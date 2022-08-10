@@ -4,8 +4,6 @@ import HttpServices from '../services/httpServices';
 import { endpoint } from '../constants/endpoints';
 import GenericTable from '../components/Tables/GenericTable';
 import AuthStore from '../services/AuthStore';
-import Head from 'next/head';
-import Layout from '../components/Layout';
 
 const httpServices = new HttpServices();
 
