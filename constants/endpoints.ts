@@ -62,6 +62,15 @@ export const endpoint = {
     put: '/quinielapunter/',
     delete: '/quinielapunter/',
     getQuinielaPunterList: '/quinielapunter/QuinielaPunterList/',
+    getQuinielaSelectedByUser: '/quinielapunter/GetQuinielaSelectedByUser/',
+  },
+  prediction: {
+    get: '/prediction',
+    post: '/prediction',
+    put: '/prediction/',
+    delete: '/prediction/',
+    getPrediction: '/prediction/GetPrediction/',
+    postRange: '/prediction/AddRangePrediction',
   },
   dashboard: {
     getByUser: '/dashboard/',

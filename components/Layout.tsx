@@ -22,6 +22,7 @@ import {
   FiPackage,
   FiCodesandbox,
   FiActivity,
+  FiBookOpen,
 } from 'react-icons/fi';
 import { IconType } from 'react-icons';
 import { MobileNav, NavItem } from './Navigation';
@@ -37,6 +38,7 @@ interface LinkItemProps {
 const LinkItems: Array<LinkItemProps> = [
   { name: 'Inicio', icon: FiGrid, path: '/', role: '' },
   { name: 'Dashboard', icon: FiActivity, path: '/home', role: '' },
+  { name: 'Prediccion', icon: FiBookOpen, path: '/predictions', role: '' },
   { name: 'Faces', icon: FiServer, path: '/phases', role: 'Admin' },
   { name: 'Ligas', icon: FiGlobe, path: '/calendars', role: 'Admin' },
   { name: 'Quiniela', icon: FiActivity, path: '/quinielas', role: 'Admin' },
