@@ -209,19 +209,13 @@ export default function Predictions() {
             <br />
             {predictions && predictions.length > 0 ? (
               <Center>
-                <Button onClick={onClickGuardar}>
+                <Button
+                  isLoading={isLoading}
+                  loadingText="Guardando...."
+                  colorScheme="teal"
+                  variant="outline"
+                  onClick={onClickGuardar}>
                   Guardar
-                  {isLoading ? (
-                    <Spinner
-                      thickness="4px"
-                      speed="0.65s"
-                      emptyColor="gray.200"
-                      color="blue.500"
-                      size="sm"
-                    />
-                  ) : (
-                    ''
-                  )}
                 </Button>
               </Center>
             ) : (

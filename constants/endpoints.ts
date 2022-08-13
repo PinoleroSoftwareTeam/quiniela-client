@@ -48,6 +48,7 @@ export const endpoint = {
     delete: '/game/',
     getGameList: '/game/GameList',
     uploadFile: '/game/UploadFile',
+    putResult: '/game/UpdateResult/',
   },
   quiniela: {
     get: '/quiniela',
