@@ -56,6 +56,7 @@ export const endpoint = {
     put: '/quiniela/',
     delete: '/quiniela/',
     getList: '/quiniela/QuinielaList',
+    putCalcResult: '/quiniela/CalcResult/',
   },
   quinielaPunter: {
     get: '/quinielapunter',
@@ -75,5 +76,6 @@ export const endpoint = {
   },
   dashboard: {
     getByUser: '/dashboard/',
+    getByQuiniela: '/dashboard/GetQuiniela/',
   },
 };

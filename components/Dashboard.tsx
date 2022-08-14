@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { useToast } from '@chakra-ui/react';
+import { useToast, useDisclosure } from '@chakra-ui/react';
 import HttpServices from '../services/httpServices';
 import { endpoint } from '../constants/endpoints';
 import GenericTable from '../components/Tables/GenericTable';
 import AuthStore from '../services/AuthStore';
+import Modal from '../components/WindowModal';
+import { DashboardDetail } from './DashboardDetail';
 
 const httpServices = new HttpServices();
 
 export function Dashboard() {
   const [rows, setRows] = useState<[]>([]);
+  const [quiniela, setQuiniela] = useState<any>({});
+  const modalUser = useDisclosure();
 
   const loadRows = () => {
     const user = AuthStore.getUser();
@@ -24,6 +28,11 @@ export function Dashboard() {
   useEffect(() => {
     loadRows();
   }, []);
+
+  const onQuinielaPunterModel = (data: any) => {
+    setQuiniela(data);
+    modalUser.onOpen();
+  };
 
   const columnsName = [
     {
@@ -54,6 +63,29 @@ export function Dashboard() {
       isAction: false,
       hidde: false,
     },
+    {
+      name: 'Ver detalle',
+      display: 'Ver detalle',
+      key: false,
+      isAction: true,
+      action: onQuinielaPunterModel,
+      hidde: false,
+    },
   ];
-  return <GenericTable columns={columnsName} rows={rows}></GenericTable>;
+
+  return (
+    <>
+      <Modal
+        title={quiniela ? quiniela.name : ''}
+        isOpen={modalUser.isOpen}
+        onClose={modalUser.onClose}
+        closeByClickCancel={false}
+        size="full">
+        <DashboardDetail
+          quinielaId={quiniela.quinielaId}
+          onClose={modalUser.onClose}></DashboardDetail>
+      </Modal>
+      <GenericTable columns={columnsName} rows={rows}></GenericTable>
+    </>
+  );
 }

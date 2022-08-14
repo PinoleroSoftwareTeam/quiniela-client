@@ -17,8 +17,8 @@ import {
   Center,
   SimpleGrid,
   Button,
-  Spinner,
   useToast,
+  IconButton,
 } from '@chakra-ui/react';
 import HttpServices from '../services/httpServices';
 import { endpoint } from '../constants/endpoints';
@@ -26,6 +26,7 @@ import Layout from '../components/Layout';
 import { ISelected } from '../models';
 import AuthStore from '../services/AuthStore';
 import { FormPrediction } from '../components/Forms';
+import { SearchIcon } from '@chakra-ui/icons';
 
 export default function Predictions() {
   const httpServices = new HttpServices();
@@ -61,9 +62,12 @@ export default function Predictions() {
     loadPhase();
   }, []);
 
-  const onLoadPrediction = (quinielaId: number, phaseId: number) => {
-    if (!quinielaId || !phaseId) return;
+  const onLoadPrediction = () => {
+    const phaseId = phaseSelect ? phaseSelect.phaseId : 0;
+    const quinielaId = quinielaSelect ? quinielaSelect.quinielaId : 0;
+    if (!phaseId || !quinielaId) return;
     const user = AuthStore.getUser();
+    setPredictions([]);
     httpServices
       .get(
         `${endpoint.prediction.getPrediction}${quinielaId}/${phaseId}/${user.userId}`
@@ -75,20 +79,18 @@ export default function Predictions() {
       });
   };
 
+  const onClickFind = () => {
+    onLoadPrediction();
+  };
+
   const onChangeQuiniela = (e: any) => {
     const { value, name } = e.target;
     setQuinielaSelect({ ...quinielaSelect, [name]: value });
-    const quinielaId = value;
-    const phaseId = phaseSelect ? phaseSelect.phaseId : 0;
-    onLoadPrediction(quinielaId, phaseId);
   };
 
   const onChangePhase = (e: any) => {
     const { value, name } = e.target;
     setPhaseSelect({ ...phaseSelect, [name]: value });
-    const quinielaId = quinielaSelect ? quinielaSelect.quinielaId : 0;
-    const phaseId = value;
-    onLoadPrediction(quinielaId, phaseId);
   };
 
   const onChangePredictionScoreTeam1 = (index: number, scoreTeam1: number) => {
@@ -190,6 +192,15 @@ export default function Predictions() {
                   </FormControl>
                 </GridItem>
               </Grid>
+              <br />
+              <Center>
+                <IconButton
+                  colorScheme="blue"
+                  aria-label="Search database"
+                  onClick={onClickFind}
+                  icon={<SearchIcon />}
+                />
+              </Center>
             </form>
             <br />
             <br />

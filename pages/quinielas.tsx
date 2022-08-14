@@ -120,6 +120,29 @@ function Quinielas() {
     modalUser.onOpen();
   };
 
+  const onClickCalcResult = (data: any) => {
+    httpServices
+      .put(endpoint.quiniela.putCalcResult, data.id, {})
+      .then(res => {
+        return res.json();
+      })
+      .then(data => {
+        if (data.error) {
+          toast({
+            title: 'Error',
+            description: data.message,
+            status: 'error',
+            duration: 4000,
+            isClosable: true,
+          });
+          return;
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
   const columnsName = [
     { name: 'id', display: 'Id', key: true, isAction: false, hidde: true },
     {
@@ -174,6 +197,14 @@ function Quinielas() {
       key: false,
       isAction: true,
       action: onAddUser,
+      hidde: false,
+    },
+    {
+      name: 'Calcular resultado',
+      display: 'Calcular resultado',
+      key: false,
+      isAction: true,
+      action: onClickCalcResult,
       hidde: false,
     },
   ];

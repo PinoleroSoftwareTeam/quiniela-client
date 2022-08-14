@@ -9,13 +9,11 @@ import {
   useColorModeValue,
   Box,
   Button,
-  useToast,
+  Badge,
   Center,
   SimpleGrid,
   Text,
 } from '@chakra-ui/react';
-import HttpServices from '../../services/httpServices';
-import { endpoint } from '../../constants/endpoints';
 
 interface FormPredictionProps {
   predictionModel: any;
@@ -30,13 +28,15 @@ export function FormPrediction({
   onChangePredictionScoreTeam1,
   onChangePredictionScoreTeam2,
 }: FormPredictionProps) {
-  const httpServices = new HttpServices();
+  const [prediction, setPrediction] = useState(predictionModel);
 
   const onChangeScoreTeam1 = (valueAsString: string, valueAsNumber: number) => {
+    setPrediction({ ...prediction, scoreTeam1: valueAsNumber });
     onChangePredictionScoreTeam1(index, valueAsNumber);
   };
 
   const onChangeScoreTeam2 = (valueAsString: string, valueAsNumber: number) => {
+    setPrediction({ ...prediction, scoreTeam2: valueAsNumber });
     onChangePredictionScoreTeam2(index, valueAsNumber);
   };
 
@@ -49,6 +49,18 @@ export function FormPrediction({
               {predictionModel.groupName
                 ? predictionModel.groupName
                 : predictionModel.phaseName}
+            </Text>
+          </Center>
+        </SimpleGrid>
+        <SimpleGrid>
+          <Center>
+            <Text fontSize="1xl">
+              <Badge
+                ml="1"
+                fontSize="0.8em"
+                colorScheme={predictionModel.closed ? 'red' : 'green'}>
+                {new Date(predictionModel.date).toLocaleDateString()}
+              </Badge>
             </Text>
           </Center>
         </SimpleGrid>
@@ -67,9 +79,9 @@ export function FormPrediction({
                   id="scoreTeam1"
                   name="scoreTeam1"
                   placeholder="Punto equipo 1"
-                  border="solid 1px 1px 1px 1px"
-                  defaultValue={predictionModel.scoreTeam1}
-                  onChange={onChangeScoreTeam1}>
+                  defaultValue={prediction.scoreTeam1}
+                  onChange={onChangeScoreTeam1}
+                  isReadOnly={predictionModel.closed}>
                   <NumberInputField />
                 </NumberInput>
               </FormControl>
@@ -89,8 +101,9 @@ export function FormPrediction({
                   id="scoreTeam2"
                   name="scoreTeam2"
                   placeholder="Punto equipo 2"
-                  defaultValue={predictionModel.scoreTeam2}
-                  onChange={onChangeScoreTeam2}>
+                  defaultValue={prediction.scoreTeam2}
+                  onChange={onChangeScoreTeam2}
+                  isReadOnly={predictionModel.closed}>
                   <NumberInputField />
                 </NumberInput>
               </FormControl>
