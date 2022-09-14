@@ -34,7 +34,7 @@ function GenericTable({ columns, rows }: { columns: ColumnData[]; rows: [] }) {
   if (isLoading) return <CircularProgress isIndeterminate color="green.300" />;
 
   return (
-    <Box bg={useColorModeValue('white', 'gray.700')} p={8}>
+    <Box bg="white" p={8}>
       <TableContainer>
         <Table variant="simple">
           <Thead>

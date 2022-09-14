@@ -32,7 +32,6 @@ interface ILogin {
 
 export default function SignIn() {
   const router = useRouter();
-
   useEffect(() => {
     new HttpServices()
       .get(endpoint.auth.ping)
@@ -111,10 +110,9 @@ export default function SignIn() {
             boxShadow="md">
             <FormControl onChange={handleChange}>
               <InputGroup>
-                <InputLeftElement
-                  pointerEvents="none"
-                  children={<CFaAt color="gray.300" />}
-                />
+                <InputLeftElement pointerEvents="none">
+                  <CFaAt color="gray.300" />
+                </InputLeftElement>
                 <Input
                   type="email"
                   placeholder="Correo electronico"
@@ -124,11 +122,9 @@ export default function SignIn() {
             </FormControl>
             <FormControl onChange={handleChange}>
               <InputGroup>
-                <InputLeftElement
-                  pointerEvents="none"
-                  color="gray.300"
-                  children={<CFaLock color="gray.300" />}
-                />
+                <InputLeftElement pointerEvents="none" color="gray.300">
+                  <CFaLock color="gray.300" />
+                </InputLeftElement>
                 <Input
                   type={showPassword ? 'text' : 'password'}
                   placeholder="Contraseña"

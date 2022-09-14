@@ -161,8 +161,9 @@ export default function Predictions() {
                       name="quinielaId"
                       placeholder="Seleccione una quiniela"
                       onChange={onChangeQuiniela}>
-                      {quinielaCbo.map(itemSelect => (
+                      {quinielaCbo.map((itemSelect, index) => (
                         <option
+                          key={index}
                           value={
                             itemSelect.key ? itemSelect.key.toString() : ''
                           }>
@@ -180,8 +181,9 @@ export default function Predictions() {
                       name="phaseId"
                       placeholder="Seleccione una face"
                       onChange={onChangePhase}>
-                      {phaseCbo.map(itemSelect => (
+                      {phaseCbo.map((itemSelect, index) => (
                         <option
+                          key={index}
                           value={
                             itemSelect.key ? itemSelect.key.toString() : ''
                           }>
@@ -208,6 +210,7 @@ export default function Predictions() {
             {predictions.map((prediction: any, index: number) => {
               return (
                 <FormPrediction
+                  key={index}
                   predictionModel={prediction}
                   index={index}
                   onChangePredictionScoreTeam1={onChangePredictionScoreTeam1}

@@ -117,28 +117,26 @@ export default function SignIn() {
             boxShadow="md">
             <FormControl onChange={handleChange}>
               <InputGroup>
-                <InputLeftElement
-                  pointerEvents="none"
-                  children={<CFaAddressCard color="gray.300" />}
-                />
+                <InputLeftElement pointerEvents="none">
+                  <CFaAddressCard color="gray.300" />
+                </InputLeftElement>
+
                 <Input type="text" placeholder="Nombres" name="firstName" />
               </InputGroup>
             </FormControl>
             <FormControl onChange={handleChange}>
               <InputGroup>
-                <InputLeftElement
-                  pointerEvents="none"
-                  children={<CFaAddressCard color="gray.300" />}
-                />
+                <InputLeftElement pointerEvents="none">
+                  <CFaAddressCard color="gray.300" />
+                </InputLeftElement>
                 <Input type="text" placeholder="Apellidos" name="lastName" />
               </InputGroup>
             </FormControl>
             <FormControl onChange={handleChange}>
               <InputGroup>
-                <InputLeftElement
-                  pointerEvents="none"
-                  children={<CFaUserAlt color="gray.300" />}
-                />
+                <InputLeftElement pointerEvents="none">
+                  <CFaUserAlt color="gray.300" />
+                </InputLeftElement>
                 <Input
                   type="text"
                   placeholder="Nombre de usuario"
@@ -148,10 +146,9 @@ export default function SignIn() {
             </FormControl>
             <FormControl onChange={handleChange}>
               <InputGroup>
-                <InputLeftElement
-                  pointerEvents="none"
-                  children={<CFaAt color="gray.300" />}
-                />
+                <InputLeftElement pointerEvents="none">
+                  <CFaAt color="gray.300" />
+                </InputLeftElement>
                 <Input
                   type="email"
                   placeholder="Correo electronico"
@@ -161,11 +158,9 @@ export default function SignIn() {
             </FormControl>
             <FormControl onChange={handleChange}>
               <InputGroup>
-                <InputLeftElement
-                  pointerEvents="none"
-                  color="gray.300"
-                  children={<CFaLock color="gray.300" />}
-                />
+                <InputLeftElement pointerEvents="none" color="gray.300">
+                  <CFaLock color="gray.300" />
+                </InputLeftElement>
                 <Input
                   type={showPassword ? 'text' : 'password'}
                   placeholder="Contraseña"

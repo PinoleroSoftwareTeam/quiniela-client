@@ -125,8 +125,10 @@ export function FormQuiniela({
               quiniela.calendarId ? quiniela.calendarId.toString() : ''
             }
             onChange={handleChange}>
-            {calendar.map(cal => (
-              <option value={cal.key.toString()}>{cal.value}</option>
+            {calendar.map((cal, index) => (
+              <option key={index} value={cal.key.toString()}>
+                {cal.value}
+              </option>
             ))}
           </Select>
         </FormControl>

@@ -152,8 +152,10 @@ export function FormGames({
                 placeholder="Seleccione una liga"
                 defaultValue={game.calendarId ? game.calendarId.toString() : ''}
                 onChange={handleChange}>
-                {calendar.map(cal => (
-                  <option value={cal.key.toString()}>{cal.value}</option>
+                {calendar.map((cal, index) => (
+                  <option key={index} value={cal.key.toString()}>
+                    {cal.value}
+                  </option>
                 ))}
               </Select>
             </FormControl>
@@ -165,8 +167,10 @@ export function FormGames({
                 placeholder="Seleccione una face"
                 defaultValue={game.phaseId ? game.phaseId.toString() : ''}
                 onChange={handleChange}>
-                {phase.map(pha => (
-                  <option value={pha.key.toString()}>{pha.value}</option>
+                {phase.map((pha, index) => (
+                  <option key={index} value={pha.key.toString()}>
+                    {pha.value}
+                  </option>
                 ))}
               </Select>
             </FormControl>
@@ -188,8 +192,10 @@ export function FormGames({
                 placeholder="Ninguno"
                 defaultValue={game.groupId ? game.groupId.toString() : ''}
                 onChange={handleChange}>
-                {groups.map(gro => (
-                  <option value={gro.key.toString()}>{gro.value}</option>
+                {groups.map((gro, index) => (
+                  <option key={index} value={gro.key.toString()}>
+                    {gro.value}
+                  </option>
                 ))}
               </Select>
             </FormControl>
@@ -201,8 +207,10 @@ export function FormGames({
                 placeholder="Seleccione un equipo"
                 defaultValue={game.team1Id ? game.team1Id.toString() : ''}
                 onChange={handleChange}>
-                {teams.map(team => (
-                  <option value={team.key.toString()}>{team.value}</option>
+                {teams.map((team, index) => (
+                  <option key={index} value={team.key.toString()}>
+                    {team.value}
+                  </option>
                 ))}
               </Select>
             </FormControl>
@@ -214,8 +222,10 @@ export function FormGames({
                 placeholder="Seleccione un equipo"
                 defaultValue={game.team2Id ? game.team2Id.toString() : ''}
                 onChange={handleChange}>
-                {teams.map(team => (
-                  <option value={team.key.toString()}>{team.value}</option>
+                {teams.map((team, index) => (
+                  <option key={index} value={team.key.toString()}>
+                    {team.value}
+                  </option>
                 ))}
               </Select>
             </FormControl>

@@ -131,8 +131,10 @@ export function FormGroup({
               placeholder="Seleccione el torneo"
               defaultValue={group.calendarId.toString()}
               onChange={handleChange}>
-              {calendars.map(calendar => (
-                <option value={calendar.id.toString()}>{calendar.name}</option>
+              {calendars.map((calendar, index) => (
+                <option key={index} value={calendar.id.toString()}>
+                  {calendar.name}
+                </option>
               ))}
             </Select>
           </FormControl>

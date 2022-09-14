@@ -321,8 +321,9 @@ function Games() {
                     name="calendarId"
                     placeholder="Seleccione un torneo"
                     onChange={onChangeFilter}>
-                    {calendarCbo.map(itemSelect => (
+                    {calendarCbo.map((itemSelect, index) => (
                       <option
+                        key={index}
                         value={itemSelect.key ? itemSelect.key.toString() : ''}>
                         {itemSelect.value}
                       </option>
@@ -338,8 +339,9 @@ function Games() {
                     name="phaseId"
                     placeholder="Seleccione una face"
                     onChange={onChangeFilter}>
-                    {phaseCbo.map(itemSelect => (
+                    {phaseCbo.map((itemSelect, index) => (
                       <option
+                        key={index}
                         value={itemSelect.key ? itemSelect.key.toString() : ''}>
                         {itemSelect.value}
                       </option>

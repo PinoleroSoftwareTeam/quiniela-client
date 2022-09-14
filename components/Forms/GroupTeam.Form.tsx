@@ -101,8 +101,8 @@ export function FormGroupTeam({
               placeholder="Seleccione el grupo"
               defaultValue={groupTeam.groupId.toString()}
               onChange={handleChange}>
-              {groups.map(group => (
-                <option value={group.id.toString()}>
+              {groups.map((group, index) => (
+                <option key={index} value={group.id.toString()}>
                   {group.name} - {group.calendarName}
                 </option>
               ))}
@@ -117,8 +117,10 @@ export function FormGroupTeam({
               placeholder="Seleccione el equipo"
               defaultValue={groupTeam.teamId.toString()}
               onChange={handleChange}>
-              {teams.map(team => (
-                <option value={team.id.toString()}>{team.name}</option>
+              {teams.map((team, index) => (
+                <option key={index} value={team.id.toString()}>
+                  {team.name}
+                </option>
               ))}
             </Select>
           </FormControl>
