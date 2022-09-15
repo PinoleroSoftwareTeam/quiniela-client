@@ -6,7 +6,7 @@ const Home: NextPage = () => {
   return (
     <div>
       <Head>
-        <title>Esto es una prueba 2.0</title>
+        <title>Quiniela</title>
         <meta name="description" content="Quiniela App" />
       </Head>
 
