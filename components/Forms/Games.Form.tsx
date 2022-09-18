@@ -7,64 +7,232 @@ import {
   NumberInputField,
   useColorModeValue,
   Box,
+  Button,
+  useToast,
 } from '@chakra-ui/react';
+import HttpServices from '../../services/httpServices';
+import { useState, useEffect } from 'react';
+import { ISelected, IGame } from '../../models';
+import { endpoint } from '../../constants/endpoints';
 
-export function FormGames() {
+interface FormGamesProps {
+  onClose: () => void;
+  modelGame: IGame;
+  onLoadData: () => void;
+  calendar: ISelected[];
+  phase: ISelected[];
+}
+export function FormGames({
+  onClose,
+  modelGame,
+  onLoadData,
+  calendar,
+  phase,
+}: FormGamesProps) {
+  const httpServices = new HttpServices();
+  const toast = useToast();
+
+  const [game, setGames] = useState<IGame>(modelGame);
+  const [groups, setGroup] = useState<ISelected[]>([]);
+  const [teams, setTeam] = useState<ISelected[]>([]);
+
+  const handleChange = (e: any) => {
+    const { value, name } = e.target;
+    setGames({ ...game, [name]: value });
+    switch (name) {
+      case 'calendarId':
+        loadGroup(value);
+        break;
+      case 'groupId':
+        loadTeams(value);
+        break;
+    }
+  };
+
+  const loadTeams = (value: any) => {
+    if (value) {
+      httpServices
+        .get(endpoint.groupTeam.SelectedById + value)
+        .then(res => res.json())
+        .then(data => {
+          setTeam(data);
+        });
+    } else {
+      httpServices
+        .get(endpoint.team.selected)
+        .then(res => res.json())
+        .then(data => {
+          setTeam(data);
+        });
+    }
+  };
+
+  const loadGroup = (value: any) => {
+    httpServices
+      .get(endpoint.group.SelectedById + value)
+      .then(res => res.json())
+      .then(data => {
+        setGroup(data);
+      });
+    loadTeams(null);
+  };
+
+  useEffect(() => {
+    if (game.id > 0) {
+      loadGroup(game.calendarId);
+    }
+  }, []);
+
+  const create = () => {
+    httpServices
+      .post(endpoint.game.post, game)
+      .then(res => {
+        return res.json();
+      })
+      .then(data => {
+        if (data.error) {
+          toast({
+            title: 'Error',
+            description: data.message,
+            status: 'error',
+            duration: 4000,
+            isClosable: true,
+          });
+          return;
+        }
+        onClose();
+        onLoadData();
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  const update = () => {
+    httpServices
+      .put(endpoint.game.put, game.id, game)
+      .then(res => {
+        return res.json();
+      })
+      .then(data => {
+        if (data.error) {
+          toast({
+            title: 'Error',
+            description: data.message,
+            status: 'error',
+            duration: 4000,
+            isClosable: true,
+          });
+          return;
+        }
+        onClose();
+        onLoadData();
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  const handleOnClickSave = (e: any) => {
+    if (game.id > 0) update();
+    else create();
+  };
+
   return (
     <>
       <main>
         <Box bg={useColorModeValue('white', 'gray.700')} p={8}>
-          <h1>Games</h1>
+          <h1>Partidos</h1>
           <form>
             <FormControl>
+              <FormLabel htmlFor="calendarId">Liga</FormLabel>
+              <Select
+                id="calendarId"
+                name="calendarId"
+                placeholder="Seleccione una liga"
+                defaultValue={game.calendarId ? game.calendarId.toString() : ''}
+                onChange={handleChange}>
+                {calendar.map((cal, index) => (
+                  <option key={index} value={cal.key.toString()}>
+                    {cal.value}
+                  </option>
+                ))}
+              </Select>
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="phaseId">Face</FormLabel>
+              <Select
+                id="phaseId"
+                name="phaseId"
+                placeholder="Seleccione una face"
+                defaultValue={game.phaseId ? game.phaseId.toString() : ''}
+                onChange={handleChange}>
+                {phase.map((pha, index) => (
+                  <option key={index} value={pha.key.toString()}>
+                    {pha.value}
+                  </option>
+                ))}
+              </Select>
+            </FormControl>
+            <FormControl>
               <FormLabel htmlFor="date">Fecha</FormLabel>
-              <Input id="date" type="Date" />
+              <Input
+                id="date"
+                type="Date"
+                name="dateStart"
+                placeholder="Fecha Inicio"
+                defaultValue={game.date}
+              />
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="group">Grupo</FormLabel>
-              <Select id="group">
-                <option value="1">Grupo 1</option>
-                <option value="2">Grupo 2</option>
-                <option value="3">Grupo 3</option>
-                <option value="4">Grupo 4</option>
+              <FormLabel htmlFor="groupId">Grupo</FormLabel>
+              <Select
+                id="groupId"
+                name="groupId"
+                placeholder="Ninguno"
+                defaultValue={game.groupId ? game.groupId.toString() : ''}
+                onChange={handleChange}>
+                {groups.map((gro, index) => (
+                  <option key={index} value={gro.key.toString()}>
+                    {gro.value}
+                  </option>
+                ))}
               </Select>
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="fase">Fase</FormLabel>
-              <Select id="fase">
-                <option value="1">Fase 1</option>
-                <option value="2">Fase 2</option>
-                <option value="3">Fase 3</option>
+              <FormLabel htmlFor="team1Id">Equipo 1</FormLabel>
+              <Select
+                id="team1Id"
+                name="team1Id"
+                placeholder="Seleccione un equipo"
+                defaultValue={game.team1Id ? game.team1Id.toString() : ''}
+                onChange={handleChange}>
+                {teams.map((team, index) => (
+                  <option key={index} value={team.key.toString()}>
+                    {team.value}
+                  </option>
+                ))}
               </Select>
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="team1">Equipo 1</FormLabel>
-              <Select id="team1">
-                <option value="1">Equipo 1</option>
-                <option value="2">Equipo 2</option>
-                <option value="3">Equipo 3</option>
+              <FormLabel htmlFor="team2Id">Equipo 1</FormLabel>
+              <Select
+                id="team2Id"
+                name="team2Id"
+                placeholder="Seleccione un equipo"
+                defaultValue={game.team2Id ? game.team2Id.toString() : ''}
+                onChange={handleChange}>
+                {teams.map((team, index) => (
+                  <option key={index} value={team.key.toString()}>
+                    {team.value}
+                  </option>
+                ))}
               </Select>
             </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="pointTeam1">Goles Equipo 1</FormLabel>
-              <NumberInput>
-                <NumberInputField />
-              </NumberInput>
-            </FormControl>
-            <FormControl>
-              <FormControl>
-                <FormLabel htmlFor="team2">Equipo 2</FormLabel>
-                <Select id="team2">
-                  <option value="1">Equipo 1</option>
-                  <option value="2">Equipo 2</option>
-                  <option value="3">Equipo 3</option>
-                </Select>
-              </FormControl>
-              <FormLabel htmlFor="pointTeam2">Goles Equipo 2</FormLabel>
-              <NumberInput>
-                <NumberInputField />
-              </NumberInput>
-            </FormControl>
+            <br />
+            <Button colorScheme="teal" onClick={handleOnClickSave}>
+              Guardar
+            </Button>
           </form>
         </Box>
       </main>

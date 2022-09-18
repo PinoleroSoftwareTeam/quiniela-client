@@ -1,18 +1,18 @@
-import type { NextPage } from 'next';
+import { Dashboard } from '../components/Dashboard';
 import Head from 'next/head';
 import Layout from '../components/Layout';
-import { Dashboard } from '../components/Dashboard';
 
-const Home: NextPage = () => {
+const Home = () => {
   return (
     <div>
       <Head>
         <title>Quiniela</title>
         <meta name="description" content="Quiniela App" />
       </Head>
-
       <main>
-        <Layout></Layout>
+        <Layout>
+          <Dashboard></Dashboard>
+        </Layout>
       </main>
     </div>
   );

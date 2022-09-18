@@ -13,31 +13,37 @@ import {
 } from '@chakra-ui/react';
 import HttpServices from '../../services/httpServices';
 import { endpoint } from '../../constants/endpoints';
+import { IGroupList } from '../../Dto/IGroupList';
 import { ITeam } from '../../models/ITeam';
+import { IGroupTeam } from '../../models/IGroupTeam';
 
 const httpServices = new HttpServices();
 
-export function FormTeam({
+export function FormGroupTeam({
   onClose,
-  modelTeam,
+  modelGroupTeam,
   onLoadData,
+  groups,
+  teams,
 }: {
   onClose: () => void;
-  modelTeam: ITeam;
+  modelGroupTeam: IGroupTeam;
   onLoadData: () => void;
+  groups: IGroupList[];
+  teams: ITeam[];
 }) {
-  const [team, setTeam] = useState<ITeam>(modelTeam);
+  const [groupTeam, setGroupTeam] = useState<IGroupTeam>(modelGroupTeam);
   const toast = useToast();
 
   const handleChange = (e: any) => {
     const { value, name } = e.target;
-    setTeam({ ...team, [name]: value });
+    setGroupTeam({ ...groupTeam, [name]: value });
   };
 
   const handleOnClickSave = (e: any) => {
-    if (team.id > 0) {
+    if (groupTeam.id > 0) {
       httpServices
-        .put(endpoint.team.put, team.id, team)
+        .put(endpoint.groupTeam.put, groupTeam.id, groupTeam)
         .then(res => {
           return res.json();
         })
@@ -60,7 +66,7 @@ export function FormTeam({
         });
     } else
       httpServices
-        .post(endpoint.team.post, team)
+        .post(endpoint.groupTeam.post, groupTeam)
         .then(res => {
           return res.json();
         })
@@ -87,34 +93,36 @@ export function FormTeam({
     <>
       <main>
         <Box bg={useColorModeValue('white', 'gray.700')} p={8}>
-          <FormControl onChange={handleChange}>
-            <FormLabel htmlFor="name">Nombre</FormLabel>
-            <Input
-              id="name"
-              name="name"
-              placeholder="Nombre del evento"
-              value={team.name}
-            />
+          <FormControl>
+            <FormLabel htmlFor="groupId">Grupo - Torneo</FormLabel>
+            <Select
+              id="groupId"
+              name="groupId"
+              placeholder="Seleccione el grupo"
+              defaultValue={groupTeam.groupId.toString()}
+              onChange={handleChange}>
+              {groups.map((group, index) => (
+                <option key={index} value={group.id.toString()}>
+                  {group.name} - {group.calendarName}
+                </option>
+              ))}
+            </Select>
           </FormControl>
           <br />
-          <FormControl onChange={handleChange}>
-            <FormLabel htmlFor="description">Descripcion</FormLabel>
-            <Input
-              id="description"
-              name="description"
-              placeholder="Descripcion"
-              value={team.description}
-            />
-          </FormControl>
-          <br />
-          <FormControl onChange={handleChange}>
-            <FormLabel htmlFor="logo">Logo</FormLabel>
-            <Input
-              id="logo"
-              name="logo"
-              placeholder="logo url"
-              value={team.logo}
-            />
+          <FormControl>
+            <FormLabel htmlFor="teamId">Equipo</FormLabel>
+            <Select
+              id="teamId"
+              name="teamId"
+              placeholder="Seleccione el equipo"
+              defaultValue={groupTeam.teamId.toString()}
+              onChange={handleChange}>
+              {teams.map((team, index) => (
+                <option key={index} value={team.id.toString()}>
+                  {team.name}
+                </option>
+              ))}
+            </Select>
           </FormControl>
           <br />
           <Button colorScheme="teal" onClick={handleOnClickSave}>

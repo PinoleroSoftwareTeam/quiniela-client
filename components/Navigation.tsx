@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import {
   IconButton,
   Button,
@@ -23,6 +24,7 @@ import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 import { IconType } from 'react-icons';
 import { ReactText } from 'react';
 import Link from 'next/link';
+import AuthStore from '../services/AuthStore';
 
 interface NavItemProps extends FlexProps {
   icon: IconType;
@@ -68,9 +70,17 @@ export const NavItem = ({ icon, children, link, ...rest }: NavItemProps) => {
 
 interface MobileProps extends FlexProps {
   onOpen: () => void;
+  userData: any;
 }
-export const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
+
+export const MobileNav = ({ onOpen, userData, ...rest }: MobileProps) => {
   const { colorMode, toggleColorMode } = useColorMode();
+  const router = useRouter();
+
+  const signOut = () => {
+    AuthStore.clear();
+    router.push('/auth/signin');
+  };
 
   return (
     <Flex
@@ -118,9 +128,11 @@ export const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
                   alignItems="flex-start"
                   spacing="1px"
                   ml="2">
-                  <Text fontSize="sm">Johan Godinez</Text>
+                  <Text fontSize="sm">
+                    {userData.firstName + ' ' + userData.lastName}
+                  </Text>
                   <Text fontSize="xs" color="gray.600">
-                    Admin
+                    {userData.administrator ? 'Admin' : ''}
                   </Text>
                 </VStack>
                 <Box display={{ base: 'none', md: 'flex' }}>
@@ -132,10 +144,8 @@ export const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
               bg={useColorModeValue('white', 'gray.900')}
               borderColor={useColorModeValue('gray.200', 'gray.700')}>
               <MenuItem>Profile</MenuItem>
-              <MenuItem>Settings</MenuItem>
-              <MenuItem>Billing</MenuItem>
               <MenuDivider />
-              <MenuItem>Sign out</MenuItem>
+              <MenuItem onClick={signOut}>Sign out</MenuItem>
             </MenuList>
           </Menu>
         </Flex>

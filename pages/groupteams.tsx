@@ -14,54 +14,73 @@ import Head from 'next/head';
 import Drawer from '../components/Drawer';
 import GenericTable from '../components/Tables/GenericTable';
 import { endpoint } from '../constants/endpoints';
-import { FormTeam } from '../components/Forms/Teams.Form';
+import { FormGroupTeam } from '../components/Forms/GroupTeam.Form';
+import { IGroupTeam } from '../models/IGroupTeam';
+import { IGroupList } from '../Dto/IGroupList';
 import { ITeam } from '../models/ITeam';
 import { MessageDialog } from '../components/MessageDialog';
 import HttpServices from '../services/httpServices';
 const httpServices = new HttpServices();
 
-export default function Teams() {
-  const newTeam = () => {
-    let newModelITeam: ITeam = {
+export default function GroupTeam() {
+  const newGroupTeam = () => {
+    let newModelIGroupTeam: IGroupTeam = {
       id: 0,
-      name: '',
-      description: '',
-      logo: '',
+      groupId: '',
+      teamId: '',
     };
-    return newModelITeam;
+    return newModelIGroupTeam;
   };
 
   const drawerForm = useDisclosure();
   const dialogAlert = useDisclosure();
   const [rows, setRows] = useState<[]>([]);
-  const [team, setTeam] = useState<ITeam>(newTeam());
+  const [groups, setGroups] = useState<IGroupList[]>([]);
+  const [teams, setTeams] = useState<ITeam[]>([]);
+  const [groupTeam, setGroupTeam] = useState<IGroupTeam>(newGroupTeam());
 
   const loadRows = () => {
     httpServices
-      .get(endpoint.team.get)
+      .get(endpoint.groupTeam.getGroupTeamList)
       .then(res => res.json())
       .then(data => {
         setRows(data);
       });
   };
 
+  const loadSelect = () => {
+    httpServices
+      .get(endpoint.group.getGroupList)
+      .then(res => res.json())
+      .then(data => {
+        setGroups(data);
+      });
+    httpServices
+      .get(endpoint.team.get)
+      .then(res => res.json())
+      .then(data => {
+        setTeams(data);
+      });
+  };
+
   useEffect(() => {
     loadRows();
+    loadSelect();
   }, []);
 
   const onClickEdit = (data: any) => {
-    setTeam(data);
+    setGroupTeam(data);
     drawerForm.onOpen();
   };
 
   const onClickDelete = (data: any) => {
-    setTeam(data);
+    setGroupTeam(data);
     dialogAlert.onOpen();
   };
 
   const onActionDelete = (data: any) => {
     httpServices
-      .delete(endpoint.team.delete, data.id)
+      .delete(endpoint.groupTeam.delete, data.id)
       .then(data => {
         loadRows();
       })
@@ -71,29 +90,29 @@ export default function Teams() {
   };
 
   const onClickNuevo = (e: any) => {
-    setTeam(newTeam());
+    setGroupTeam(newGroupTeam());
     drawerForm.onOpen();
   };
 
   const columnsName = [
     { name: 'id', display: 'Id', key: true, isAction: false, hidde: false },
     {
-      name: 'name',
-      display: 'Name',
+      name: 'calendarName',
+      display: 'Torneo',
       key: false,
       isAction: false,
       hidde: false,
     },
     {
-      name: 'description',
-      display: 'Description',
+      name: 'groupName',
+      display: 'Grupo',
       key: false,
       isAction: false,
       hidde: false,
     },
     {
-      name: 'logo',
-      display: 'logo',
+      name: 'teamName',
+      display: 'Equipo',
       key: false,
       isAction: false,
       hidde: false,
@@ -120,24 +139,26 @@ export default function Teams() {
     <>
       <main>
         <Head>
-          <title>Quiniela - Catalogo de Grupos</title>
+          <title>Quiniela - Grupo Torneo</title>
         </Head>
         <Drawer
-          title="Calendario"
+          title="Equipo grupo torneo"
           isOpen={drawerForm.isOpen}
           onClose={drawerForm.onClose}>
-          <FormTeam
+          <FormGroupTeam
             onClose={drawerForm.onClose}
-            modelTeam={team}
-            onLoadData={loadRows}></FormTeam>
+            modelGroupTeam={groupTeam}
+            onLoadData={loadRows}
+            groups={groups}
+            teams={teams}></FormGroupTeam>
         </Drawer>
         <MessageDialog
-          title="Eliminar equipo?"
+          title="Eliminar Grupo?"
           isOpen={dialogAlert.isOpen}
           onClose={dialogAlert.onClose}
-          body="Esta seguro que desele eliminar este equipo del catalogo?"
+          body="Esta seguro que desele eliminar este grupo del catalogo?"
           displayAcctionButton="Eliminar"
-          data={team}
+          data={groupTeam}
           onActionDelete={onActionDelete}></MessageDialog>
         <Layout>
           <Box bg={useColorModeValue('white', 'gray.700')} p={8}>

@@ -8,36 +8,35 @@ import {
   useColorModeValue,
   Box,
   Button,
-  Select,
   useToast,
 } from '@chakra-ui/react';
 import HttpServices from '../../services/httpServices';
 import { endpoint } from '../../constants/endpoints';
-import { ITeam } from '../../models/ITeam';
+import { ICalendar } from '../../models/ICalendar';
 
 const httpServices = new HttpServices();
 
-export function FormTeam({
+export function FormCalendar({
   onClose,
-  modelTeam,
+  modelCalendar,
   onLoadData,
 }: {
   onClose: () => void;
-  modelTeam: ITeam;
+  modelCalendar: ICalendar;
   onLoadData: () => void;
 }) {
-  const [team, setTeam] = useState<ITeam>(modelTeam);
+  const [calendar, setCalendar] = useState<ICalendar>(modelCalendar);
   const toast = useToast();
 
   const handleChange = (e: any) => {
     const { value, name } = e.target;
-    setTeam({ ...team, [name]: value });
+    setCalendar({ ...calendar, [name]: value });
   };
 
   const handleOnClickSave = (e: any) => {
-    if (team.id > 0) {
+    if (calendar.id > 0) {
       httpServices
-        .put(endpoint.team.put, team.id, team)
+        .put(endpoint.calendar.put, calendar.id, calendar)
         .then(res => {
           return res.json();
         })
@@ -60,7 +59,7 @@ export function FormTeam({
         });
     } else
       httpServices
-        .post(endpoint.team.post, team)
+        .post(endpoint.calendar.post, calendar)
         .then(res => {
           return res.json();
         })
@@ -93,7 +92,7 @@ export function FormTeam({
               id="name"
               name="name"
               placeholder="Nombre del evento"
-              value={team.name}
+              value={calendar.name}
             />
           </FormControl>
           <br />
@@ -103,18 +102,69 @@ export function FormTeam({
               id="description"
               name="description"
               placeholder="Descripcion"
-              value={team.description}
+              value={calendar.description}
             />
           </FormControl>
           <br />
           <FormControl onChange={handleChange}>
-            <FormLabel htmlFor="logo">Logo</FormLabel>
+            <FormLabel htmlFor="DateStart">Fecha inicio</FormLabel>
             <Input
-              id="logo"
-              name="logo"
-              placeholder="logo url"
-              value={team.logo}
+              id="DateStart"
+              name="dateStart"
+              placeholder="Fecha Inicio"
+              type="date"
+              defaultValue={calendar.dateStart}
             />
+          </FormControl>
+          <br />
+          <FormControl onChange={handleChange}>
+            <FormLabel htmlFor="DateEnd">Fecha finalizacion</FormLabel>
+            <Input
+              id="DateEnd"
+              name="dateEnd"
+              placeholder="Fecha Finalizacion"
+              type="date"
+              defaultValue={calendar.dateEnd}
+            />
+          </FormControl>
+          <br />
+          <FormControl onChange={handleChange}>
+            <FormLabel htmlFor="Year">Año</FormLabel>
+            <NumberInput
+              min={0}
+              max={2060}
+              id="Year"
+              name="year"
+              placeholder="Año"
+              defaultValue={calendar.year.toString()}>
+              <NumberInputField />
+            </NumberInput>
+          </FormControl>
+          <br />
+          <FormControl onChange={handleChange}>
+            <FormLabel htmlFor="ScoreWin">Puntos por victoria</FormLabel>
+            <NumberInput
+              min={0}
+              max={255}
+              id="ScoreWin"
+              name="scoreWin"
+              placeholder="Punto por victoria"
+              defaultValue={calendar.scoreWin.toString()}>
+              <NumberInputField />
+            </NumberInput>
+          </FormControl>
+          <br />
+          <FormControl onChange={handleChange}>
+            <FormLabel htmlFor="ScorePoint">Puntos por resultado</FormLabel>
+            <NumberInput
+              min={0}
+              max={255}
+              id="ScorePoint"
+              name="scorePoint"
+              placeholder="Punto por resultado"
+              defaultValue={calendar.scorePoint.toString()}>
+              <NumberInputField />
+            </NumberInput>
           </FormControl>
           <br />
           <Button colorScheme="teal" onClick={handleOnClickSave}>

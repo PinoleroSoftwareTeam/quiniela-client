@@ -14,31 +14,30 @@ import Head from 'next/head';
 import Drawer from '../components/Drawer';
 import GenericTable from '../components/Tables/GenericTable';
 import { endpoint } from '../constants/endpoints';
-import { FormTeam } from '../components/Forms/Teams.Form';
-import { ITeam } from '../models/ITeam';
+import { FormPhase } from '../components/Forms/Phase.Form';
+import { IPhase } from '../models/IPhase';
 import { MessageDialog } from '../components/MessageDialog';
 import HttpServices from '../services/httpServices';
 const httpServices = new HttpServices();
 
-export default function Teams() {
-  const newTeam = () => {
-    let newModelITeam: ITeam = {
+export default function Phase() {
+  const newPhase = () => {
+    let newModelPhase: IPhase = {
       id: 0,
       name: '',
       description: '',
-      logo: '',
     };
-    return newModelITeam;
+    return newModelPhase;
   };
 
   const drawerForm = useDisclosure();
   const dialogAlert = useDisclosure();
   const [rows, setRows] = useState<[]>([]);
-  const [team, setTeam] = useState<ITeam>(newTeam());
+  const [phase, setPhase] = useState<IPhase>(newPhase());
 
   const loadRows = () => {
     httpServices
-      .get(endpoint.team.get)
+      .get(endpoint.phase.get)
       .then(res => res.json())
       .then(data => {
         setRows(data);
@@ -50,18 +49,18 @@ export default function Teams() {
   }, []);
 
   const onClickEdit = (data: any) => {
-    setTeam(data);
+    setPhase(data);
     drawerForm.onOpen();
   };
 
   const onClickDelete = (data: any) => {
-    setTeam(data);
+    setPhase(data);
     dialogAlert.onOpen();
   };
 
   const onActionDelete = (data: any) => {
     httpServices
-      .delete(endpoint.team.delete, data.id)
+      .delete(endpoint.phase.delete, data.id)
       .then(data => {
         loadRows();
       })
@@ -71,7 +70,7 @@ export default function Teams() {
   };
 
   const onClickNuevo = (e: any) => {
-    setTeam(newTeam());
+    setPhase(newPhase());
     drawerForm.onOpen();
   };
 
@@ -87,13 +86,6 @@ export default function Teams() {
     {
       name: 'description',
       display: 'Description',
-      key: false,
-      isAction: false,
-      hidde: false,
-    },
-    {
-      name: 'logo',
-      display: 'logo',
       key: false,
       isAction: false,
       hidde: false,
@@ -120,30 +112,30 @@ export default function Teams() {
     <>
       <main>
         <Head>
-          <title>Quiniela - Catalogo de Grupos</title>
+          <title>Quiniela - Jornadas</title>
         </Head>
         <Drawer
           title="Calendario"
           isOpen={drawerForm.isOpen}
           onClose={drawerForm.onClose}>
-          <FormTeam
+          <FormPhase
             onClose={drawerForm.onClose}
-            modelTeam={team}
-            onLoadData={loadRows}></FormTeam>
+            modelPhase={phase}
+            onLoadData={loadRows}></FormPhase>
         </Drawer>
         <MessageDialog
-          title="Eliminar equipo?"
+          title="Eliminar Calnedario?"
           isOpen={dialogAlert.isOpen}
           onClose={dialogAlert.onClose}
-          body="Esta seguro que desele eliminar este equipo del catalogo?"
+          body="Esta seguro que desele eliminar esta jornada del catalogo?"
           displayAcctionButton="Eliminar"
-          data={team}
+          data={phase}
           onActionDelete={onActionDelete}></MessageDialog>
         <Layout>
           <Box bg={useColorModeValue('white', 'gray.700')} p={8}>
             <Flex>
               <Heading as="h1" size="lg">
-                Catalogos grupos
+                Catalogos Jornadas
               </Heading>
               <Spacer />
               <Button onClick={onClickNuevo}>Nuevo</Button>

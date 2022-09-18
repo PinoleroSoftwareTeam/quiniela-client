@@ -14,54 +14,67 @@ import Head from 'next/head';
 import Drawer from '../components/Drawer';
 import GenericTable from '../components/Tables/GenericTable';
 import { endpoint } from '../constants/endpoints';
-import { FormTeam } from '../components/Forms/Teams.Form';
-import { ITeam } from '../models/ITeam';
+import { FormGroup } from '../components/Forms/Group.Form';
+import { IGroup } from '../models/IGroup';
+import { ICalendar } from '../models/ICalendar';
 import { MessageDialog } from '../components/MessageDialog';
 import HttpServices from '../services/httpServices';
 const httpServices = new HttpServices();
 
-export default function Teams() {
-  const newTeam = () => {
-    let newModelITeam: ITeam = {
+export default function Group() {
+  const newGroup = () => {
+    let newModelIGroup: IGroup = {
       id: 0,
       name: '',
       description: '',
-      logo: '',
+      amount: 0,
+      calendarId: '0',
     };
-    return newModelITeam;
+    return newModelIGroup;
   };
 
   const drawerForm = useDisclosure();
   const dialogAlert = useDisclosure();
   const [rows, setRows] = useState<[]>([]);
-  const [team, setTeam] = useState<ITeam>(newTeam());
+  const [calendars, setCalendars] = useState<ICalendar[]>([]);
+  const [group, setGroup] = useState<IGroup>(newGroup());
 
   const loadRows = () => {
     httpServices
-      .get(endpoint.team.get)
+      .get(endpoint.group.getGroupList)
       .then(res => res.json())
       .then(data => {
         setRows(data);
       });
   };
 
+  const loadSelect = () => {
+    httpServices
+      .get(endpoint.calendar.get)
+      .then(res => res.json())
+      .then(data => {
+        setCalendars(data);
+      });
+  };
+
   useEffect(() => {
     loadRows();
+    loadSelect();
   }, []);
 
   const onClickEdit = (data: any) => {
-    setTeam(data);
+    setGroup(data);
     drawerForm.onOpen();
   };
 
   const onClickDelete = (data: any) => {
-    setTeam(data);
+    setGroup(data);
     dialogAlert.onOpen();
   };
 
   const onActionDelete = (data: any) => {
     httpServices
-      .delete(endpoint.team.delete, data.id)
+      .delete(endpoint.group.delete, data.id)
       .then(data => {
         loadRows();
       })
@@ -71,7 +84,7 @@ export default function Teams() {
   };
 
   const onClickNuevo = (e: any) => {
-    setTeam(newTeam());
+    setGroup(newGroup());
     drawerForm.onOpen();
   };
 
@@ -92,8 +105,15 @@ export default function Teams() {
       hidde: false,
     },
     {
-      name: 'logo',
-      display: 'logo',
+      name: 'amount',
+      display: 'Cantidad',
+      key: false,
+      isAction: false,
+      hidde: false,
+    },
+    {
+      name: 'calendarName',
+      display: 'Torneo',
       key: false,
       isAction: false,
       hidde: false,
@@ -123,21 +143,22 @@ export default function Teams() {
           <title>Quiniela - Catalogo de Grupos</title>
         </Head>
         <Drawer
-          title="Calendario"
+          title="Grupos"
           isOpen={drawerForm.isOpen}
           onClose={drawerForm.onClose}>
-          <FormTeam
+          <FormGroup
             onClose={drawerForm.onClose}
-            modelTeam={team}
-            onLoadData={loadRows}></FormTeam>
+            modelGroup={group}
+            onLoadData={loadRows}
+            calendars={calendars}></FormGroup>
         </Drawer>
         <MessageDialog
-          title="Eliminar equipo?"
+          title="Eliminar Grupo?"
           isOpen={dialogAlert.isOpen}
           onClose={dialogAlert.onClose}
-          body="Esta seguro que desele eliminar este equipo del catalogo?"
+          body="Esta seguro que desele eliminar este grupo del catalogo?"
           displayAcctionButton="Eliminar"
-          data={team}
+          data={group}
           onActionDelete={onActionDelete}></MessageDialog>
         <Layout>
           <Box bg={useColorModeValue('white', 'gray.700')} p={8}>

@@ -3,41 +3,38 @@ import {
   FormControl,
   FormLabel,
   Input,
-  NumberInput,
-  NumberInputField,
   useColorModeValue,
   Box,
   Button,
-  Select,
   useToast,
 } from '@chakra-ui/react';
 import HttpServices from '../../services/httpServices';
 import { endpoint } from '../../constants/endpoints';
-import { ITeam } from '../../models/ITeam';
+import { IPhase } from '../../models/IPhase';
 
 const httpServices = new HttpServices();
 
-export function FormTeam({
+export function FormPhase({
   onClose,
-  modelTeam,
+  modelPhase,
   onLoadData,
 }: {
   onClose: () => void;
-  modelTeam: ITeam;
+  modelPhase: IPhase;
   onLoadData: () => void;
 }) {
-  const [team, setTeam] = useState<ITeam>(modelTeam);
+  const [phase, setPhase] = useState<IPhase>(modelPhase);
   const toast = useToast();
 
   const handleChange = (e: any) => {
     const { value, name } = e.target;
-    setTeam({ ...team, [name]: value });
+    setPhase({ ...phase, [name]: value });
   };
 
   const handleOnClickSave = (e: any) => {
-    if (team.id > 0) {
+    if (phase.id > 0) {
       httpServices
-        .put(endpoint.team.put, team.id, team)
+        .put(endpoint.phase.put, phase.id, phase)
         .then(res => {
           return res.json();
         })
@@ -60,7 +57,7 @@ export function FormTeam({
         });
     } else
       httpServices
-        .post(endpoint.team.post, team)
+        .post(endpoint.phase.post, phase)
         .then(res => {
           return res.json();
         })
@@ -93,7 +90,7 @@ export function FormTeam({
               id="name"
               name="name"
               placeholder="Nombre del evento"
-              value={team.name}
+              value={phase.name}
             />
           </FormControl>
           <br />
@@ -103,17 +100,7 @@ export function FormTeam({
               id="description"
               name="description"
               placeholder="Descripcion"
-              value={team.description}
-            />
-          </FormControl>
-          <br />
-          <FormControl onChange={handleChange}>
-            <FormLabel htmlFor="logo">Logo</FormLabel>
-            <Input
-              id="logo"
-              name="logo"
-              placeholder="logo url"
-              value={team.logo}
+              value={phase.description}
             />
           </FormControl>
           <br />

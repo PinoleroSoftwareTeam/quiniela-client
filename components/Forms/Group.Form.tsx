@@ -13,31 +13,34 @@ import {
 } from '@chakra-ui/react';
 import HttpServices from '../../services/httpServices';
 import { endpoint } from '../../constants/endpoints';
-import { ITeam } from '../../models/ITeam';
+import { IGroup } from '../../models/IGroup';
+import { ICalendar } from '../../models/ICalendar';
 
 const httpServices = new HttpServices();
 
-export function FormTeam({
+export function FormGroup({
   onClose,
-  modelTeam,
+  modelGroup,
   onLoadData,
+  calendars,
 }: {
   onClose: () => void;
-  modelTeam: ITeam;
+  modelGroup: IGroup;
   onLoadData: () => void;
+  calendars: ICalendar[];
 }) {
-  const [team, setTeam] = useState<ITeam>(modelTeam);
+  const [group, setGroup] = useState<IGroup>(modelGroup);
   const toast = useToast();
 
   const handleChange = (e: any) => {
     const { value, name } = e.target;
-    setTeam({ ...team, [name]: value });
+    setGroup({ ...group, [name]: value });
   };
 
   const handleOnClickSave = (e: any) => {
-    if (team.id > 0) {
+    if (group.id > 0) {
       httpServices
-        .put(endpoint.team.put, team.id, team)
+        .put(endpoint.group.put, group.id, group)
         .then(res => {
           return res.json();
         })
@@ -60,7 +63,7 @@ export function FormTeam({
         });
     } else
       httpServices
-        .post(endpoint.team.post, team)
+        .post(endpoint.group.post, group)
         .then(res => {
           return res.json();
         })
@@ -93,7 +96,7 @@ export function FormTeam({
               id="name"
               name="name"
               placeholder="Nombre del evento"
-              value={team.name}
+              value={group.name}
             />
           </FormControl>
           <br />
@@ -103,18 +106,37 @@ export function FormTeam({
               id="description"
               name="description"
               placeholder="Descripcion"
-              value={team.description}
+              value={group.description}
             />
           </FormControl>
           <br />
           <FormControl onChange={handleChange}>
-            <FormLabel htmlFor="logo">Logo</FormLabel>
-            <Input
-              id="logo"
-              name="logo"
-              placeholder="logo url"
-              value={team.logo}
-            />
+            <FormLabel htmlFor="amount">Cantidad</FormLabel>
+            <NumberInput
+              min={0}
+              max={2060}
+              id="amount"
+              name="amount"
+              placeholder="Cantidad"
+              defaultValue={group.amount.toString()}>
+              <NumberInputField />
+            </NumberInput>
+          </FormControl>
+          <br />
+          <FormControl>
+            <FormLabel htmlFor="calendarId">Torneo</FormLabel>
+            <Select
+              id="calendarId"
+              name="calendarId"
+              placeholder="Seleccione el torneo"
+              defaultValue={group.calendarId.toString()}
+              onChange={handleChange}>
+              {calendars.map((calendar, index) => (
+                <option key={index} value={calendar.id.toString()}>
+                  {calendar.name}
+                </option>
+              ))}
+            </Select>
           </FormControl>
           <br />
           <Button colorScheme="teal" onClick={handleOnClickSave}>

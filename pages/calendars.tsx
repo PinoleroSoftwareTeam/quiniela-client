@@ -14,31 +14,35 @@ import Head from 'next/head';
 import Drawer from '../components/Drawer';
 import GenericTable from '../components/Tables/GenericTable';
 import { endpoint } from '../constants/endpoints';
-import { FormTeam } from '../components/Forms/Teams.Form';
-import { ITeam } from '../models/ITeam';
+import { FormCalendar } from '../components/Forms/Calendar.Form';
+import { ICalendar } from '.././models/ICalendar';
 import { MessageDialog } from '../components/MessageDialog';
 import HttpServices from '../services/httpServices';
 const httpServices = new HttpServices();
 
-export default function Teams() {
-  const newTeam = () => {
-    let newModelITeam: ITeam = {
+export default function Calendars() {
+  const newCalendar = () => {
+    let newModelCalendar: ICalendar = {
       id: 0,
       name: '',
       description: '',
-      logo: '',
+      dateStart: new Date().toString(),
+      dateEnd: new Date().toString(),
+      year: new Date().getFullYear(),
+      scoreWin: 0,
+      scorePoint: 0,
     };
-    return newModelITeam;
+    return newModelCalendar;
   };
 
-  const drawerForm = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const dialogAlert = useDisclosure();
   const [rows, setRows] = useState<[]>([]);
-  const [team, setTeam] = useState<ITeam>(newTeam());
+  const [calendar, setCalendar] = useState<ICalendar>(newCalendar());
 
-  const loadRows = () => {
+  const loadRow = () => {
     httpServices
-      .get(endpoint.team.get)
+      .get(endpoint.calendar.get)
       .then(res => res.json())
       .then(data => {
         setRows(data);
@@ -46,24 +50,34 @@ export default function Teams() {
   };
 
   useEffect(() => {
-    loadRows();
+    loadRow();
   }, []);
-
+  /**
+   *
+   * @param data ICalendar
+   */
   const onClickEdit = (data: any) => {
-    setTeam(data);
-    drawerForm.onOpen();
+    setCalendar(data);
+    onOpen();
   };
-
+  /**
+   *
+   * @param data ICalendar
+   */
   const onClickDelete = (data: any) => {
-    setTeam(data);
+    setCalendar(data);
     dialogAlert.onOpen();
   };
-
+  /**
+   *
+   * @param data ICalendar
+   */
   const onActionDelete = (data: any) => {
     httpServices
-      .delete(endpoint.team.delete, data.id)
+      .delete(endpoint.calendar.delete, data.id)
       .then(data => {
-        loadRows();
+        console.log(data);
+        loadRow();
       })
       .catch(error => {
         console.log(error);
@@ -71,8 +85,8 @@ export default function Teams() {
   };
 
   const onClickNuevo = (e: any) => {
-    setTeam(newTeam());
-    drawerForm.onOpen();
+    setCalendar(newCalendar());
+    onOpen();
   };
 
   const columnsName = [
@@ -92,8 +106,36 @@ export default function Teams() {
       hidde: false,
     },
     {
-      name: 'logo',
-      display: 'logo',
+      name: 'dateStart',
+      display: 'Date Start',
+      key: false,
+      isAction: false,
+      hidde: false,
+    },
+    {
+      name: 'dateEnd',
+      display: 'Date End',
+      key: false,
+      isAction: false,
+      hidde: false,
+    },
+    {
+      name: 'year',
+      display: 'Year',
+      key: false,
+      isAction: false,
+      hidde: false,
+    },
+    {
+      name: 'scoreWin',
+      display: 'Score Win',
+      key: false,
+      isAction: false,
+      hidde: false,
+    },
+    {
+      name: 'scorePoint',
+      display: 'Score Point',
       key: false,
       isAction: false,
       hidde: false,
@@ -120,30 +162,27 @@ export default function Teams() {
     <>
       <main>
         <Head>
-          <title>Quiniela - Catalogo de Grupos</title>
+          <title>Quiniela - Calendario</title>
         </Head>
-        <Drawer
-          title="Calendario"
-          isOpen={drawerForm.isOpen}
-          onClose={drawerForm.onClose}>
-          <FormTeam
-            onClose={drawerForm.onClose}
-            modelTeam={team}
-            onLoadData={loadRows}></FormTeam>
+        <Drawer title="Calendario" isOpen={isOpen} onClose={onClose}>
+          <FormCalendar
+            onClose={onClose}
+            modelCalendar={calendar}
+            onLoadData={loadRow}></FormCalendar>
         </Drawer>
         <MessageDialog
-          title="Eliminar equipo?"
+          title="Eliminar Calnedario?"
           isOpen={dialogAlert.isOpen}
           onClose={dialogAlert.onClose}
-          body="Esta seguro que desele eliminar este equipo del catalogo?"
+          body="Esta seguro que desele eliminar este calendario?"
           displayAcctionButton="Eliminar"
-          data={team}
+          data={calendar}
           onActionDelete={onActionDelete}></MessageDialog>
         <Layout>
           <Box bg={useColorModeValue('white', 'gray.700')} p={8}>
             <Flex>
               <Heading as="h1" size="lg">
-                Catalogos grupos
+                Equipos
               </Heading>
               <Spacer />
               <Button onClick={onClickNuevo}>Nuevo</Button>
