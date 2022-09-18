@@ -1,4 +1,4 @@
-const host = 'http://felixramirez-001-site1.htempurl.com/api';
+const host = 'https://localhost:44393/api';
 export const hostApi = {
   hostApi: host,
 };
