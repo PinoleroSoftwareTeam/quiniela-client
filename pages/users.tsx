@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
 import {
   Heading,
@@ -8,9 +8,51 @@ import {
   Spacer,
   Button,
 } from '@chakra-ui/react';
-import { TableUsers } from '../components/Tables';
+import HttpServices from '../services/httpServices';
+import { endpoint } from '../constants/endpoints';
+import GenericTable from '../components/Tables/GenericTable';
 
 export default function Users() {
+  const httpServices = new HttpServices();
+  const [rows, setRows] = useState<[]>([]);
+  const loadRows = () => {
+    httpServices
+      .get(endpoint.auth.getUser)
+      .then(res => res.json())
+      .then(data => {
+        setRows(data);
+      });
+  };
+
+  useEffect(() => {
+    loadRows();
+  }, []);
+
+  const columnsName = [
+    { name: 'email', display: 'Id', key: true, isAction: false, hidde: false },
+    {
+      name: 'firstName',
+      display: 'Nombre',
+      key: false,
+      isAction: false,
+      hidde: false,
+    },
+    {
+      name: 'lastName',
+      display: 'Apellido',
+      key: false,
+      isAction: false,
+      hidde: false,
+    },
+    {
+      name: 'userName',
+      display: 'Nombre de Usuario',
+      key: false,
+      isAction: false,
+      hidde: false,
+    },
+  ];
+
   return (
     <>
       <main>
@@ -21,11 +63,10 @@ export default function Users() {
                 Usuarios
               </Heading>
               <Spacer />
-              <Button>Nuevo</Button>
             </Flex>
           </Box>
           <br />
-          <TableUsers />
+          <GenericTable columns={columnsName} rows={rows}></GenericTable>
         </Layout>
       </main>
     </>

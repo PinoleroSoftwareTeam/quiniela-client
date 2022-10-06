@@ -132,6 +132,7 @@ export default function Predictions() {
           return;
         }
         setLoading(false);
+        setPredictions([]);
       })
       .catch(error => {
         console.log(error);
@@ -175,11 +176,11 @@ export default function Predictions() {
                 </GridItem>
                 <GridItem colStart={4} colEnd={6} h="10">
                   <FormControl>
-                    <FormLabel htmlFor="pahseId">Faces</FormLabel>
+                    <FormLabel htmlFor="pahseId">Fases</FormLabel>
                     <Select
                       id="phaseId"
                       name="phaseId"
-                      placeholder="Seleccione una face"
+                      placeholder="Seleccione una fase"
                       onChange={onChangePhase}>
                       {phaseCbo.map((itemSelect, index) => (
                         <option
