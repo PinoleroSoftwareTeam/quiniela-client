@@ -9,6 +9,8 @@ import {
   Button,
   useDisclosure,
   useToast,
+  Spinner,
+  Center,
 } from '@chakra-ui/react';
 
 import Drawer from '../components/Drawer';
@@ -31,6 +33,7 @@ function Quinielas() {
   const [calendar, setCalendar] = useState<ISelected>({});
   const [rows, setRows] = useState<[]>([]);
   const [quinielaPunters, setQuinielaPunters] = useState<[]>([]);
+  const [isLoadingCalc, setIsLoadingCalc] = useState(false);
 
   const loadRows = () => {
     httpServices
@@ -121,6 +124,7 @@ function Quinielas() {
   };
 
   const onClickCalcResult = (data: any) => {
+    setIsLoadingCalc(true);
     httpServices
       .put(endpoint.quiniela.putCalcResult, data.id, {})
       .then(res => {
@@ -135,10 +139,13 @@ function Quinielas() {
             duration: 4000,
             isClosable: true,
           });
+          setIsLoadingCalc(false);
           return;
         }
+        setIsLoadingCalc(false);
       })
       .catch(error => {
+        setIsLoadingCalc(false);
         console.log(error);
       });
   };
@@ -253,6 +260,19 @@ function Quinielas() {
         </Box>
         <br />
         <GenericTable columns={columnsName} rows={rows}></GenericTable>
+        {isLoadingCalc ? (
+          <Center>
+            <Spinner
+              thickness="4px"
+              speed="0.65s"
+              emptyColor="gray.200"
+              color="blue.500"
+              size="xl"
+            />
+          </Center>
+        ) : (
+          <></>
+        )}
       </Layout>
     </>
   );
