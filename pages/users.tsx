@@ -7,6 +7,7 @@ import {
   Flex,
   Spacer,
   Button,
+  useToast,
 } from '@chakra-ui/react';
 import HttpServices from '../services/httpServices';
 import { endpoint } from '../constants/endpoints';
@@ -14,6 +15,7 @@ import GenericTable from '../components/Tables/GenericTable';
 
 export default function Users() {
   const httpServices = new HttpServices();
+  const toast = useToast();
   const [rows, setRows] = useState<[]>([]);
   const loadRows = () => {
     httpServices
@@ -27,6 +29,32 @@ export default function Users() {
   useEffect(() => {
     loadRows();
   }, []);
+
+  const onChangeEnabled = (e: any, data: any) => {
+    const { checked } = e.target;
+    data.enabled = checked;
+    httpServices
+      .put(endpoint.auth.unlockUser, data.userId, data)
+      .then(res => {
+        return res.json();
+      })
+      .then(data => {
+        if (data.error) {
+          toast({
+            title: 'Error',
+            description: data.message,
+            status: 'error',
+            duration: 4000,
+            isClosable: true,
+          });
+          return;
+        }
+        loadRows();
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
   const columnsName = [
     { name: 'email', display: 'Id', key: true, isAction: false, hidde: false },
@@ -51,6 +79,15 @@ export default function Users() {
       isAction: false,
       hidde: false,
     },
+    {
+      name: 'enabled',
+      display: 'Activo',
+      key: false,
+      isAction: false,
+      isCheck: true,
+      event: onChangeEnabled,
+      hidde: false,
+    },
   ];
 
   return (
@@ -66,7 +103,10 @@ export default function Users() {
             </Flex>
           </Box>
           <br />
-          <GenericTable columns={columnsName} rows={rows}></GenericTable>
+          <GenericTable
+            key={'table-user-quiniela'}
+            columns={columnsName}
+            rows={rows}></GenericTable>
         </Layout>
       </main>
     </>

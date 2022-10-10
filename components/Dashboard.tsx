@@ -1,17 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { useToast, useDisclosure } from '@chakra-ui/react';
+import {
+  useToast,
+  useDisclosure,
+  Box,
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+} from '@chakra-ui/react';
 import HttpServices from '../services/httpServices';
 import { endpoint } from '../constants/endpoints';
 import GenericTable from '../components/Tables/GenericTable';
 import AuthStore from '../services/AuthStore';
 import Modal from '../components/WindowModal';
 import { DashboardDetail } from './DashboardDetail';
+import { IQuinielaDashboard } from '../models';
 
 const httpServices = new HttpServices();
 
 export function Dashboard() {
-  const [rows, setRows] = useState<[]>([]);
-  const [quiniela, setQuiniela] = useState<any>({});
+  const [rows, setRows] = useState<IQuinielaDashboard[]>([]);
+  const [quiniela, setQuiniela] = useState<IQuinielaDashboard>({});
   const modalUser = useDisclosure();
 
   const loadRows = () => {
@@ -34,58 +44,55 @@ export function Dashboard() {
     modalUser.onOpen();
   };
 
-  const columnsName = [
+  const columnNamePunter = [
     {
-      name: 'quinielaId',
-      display: 'Id',
+      name: 'position',
+      display: 'Posición',
       key: true,
       isAction: false,
-      hidde: true,
+      hidde: false,
     },
     {
-      name: 'userId',
-      display: 'UserId',
-      key: false,
-      isAction: false,
-      hidde: true,
-    },
-    {
-      name: 'quinielaName',
-      display: 'Quiniela',
+      name: 'userName',
+      display: 'Usuario',
       key: false,
       isAction: false,
       hidde: false,
     },
     {
-      name: 'point',
-      display: 'Puntos',
+      name: 'total',
+      display: 'Total',
       key: false,
       isAction: false,
-      hidde: false,
-    },
-    {
-      name: 'Ver detalle',
-      display: 'Ver detalle',
-      key: false,
-      isAction: true,
-      action: onQuinielaPunterModel,
       hidde: false,
     },
   ];
 
   return (
     <>
-      <Modal
-        title={quiniela ? quiniela.name : ''}
-        isOpen={modalUser.isOpen}
-        onClose={modalUser.onClose}
-        closeByClickCancel={false}
-        size="full">
-        <DashboardDetail
-          quinielaId={quiniela.quinielaId}
-          onClose={modalUser.onClose}></DashboardDetail>
-      </Modal>
-      <GenericTable columns={columnsName} rows={rows}></GenericTable>
+      {rows.map((quiniela, index) => {
+        return (
+          <Accordion allowToggle={true}>
+            <AccordionItem>
+              <h2>
+                <AccordionButton
+                  backgroundColor="white"
+                  _expanded={{ bg: '#3182ce', color: 'white' }}>
+                  <Box flex="1" textAlign="left">
+                    {quiniela.quinielaName}
+                  </Box>
+                  <AccordionIcon />
+                </AccordionButton>
+              </h2>
+              <AccordionPanel>
+                <GenericTable
+                  columns={columnNamePunter}
+                  rows={quiniela.details}></GenericTable>
+              </AccordionPanel>
+            </AccordionItem>
+          </Accordion>
+        );
+      })}
     </>
   );
 }
