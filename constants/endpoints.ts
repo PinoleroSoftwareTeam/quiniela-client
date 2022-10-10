@@ -79,5 +79,6 @@ export const endpoint = {
   dashboard: {
     getByUser: '/dashboard/',
     getByQuiniela: '/dashboard/GetQuiniela/',
+    getByQuinielaUser: '/dashboard/GetUserQuiniela/',
   },
 };

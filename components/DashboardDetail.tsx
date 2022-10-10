@@ -1,25 +1,43 @@
 import React, { useEffect, useState } from 'react';
+import {
+  Box,
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  SimpleGrid,
+  Text,
+} from '@chakra-ui/react';
 import HttpServices from '../services/httpServices';
 import { endpoint } from '../constants/endpoints';
 import GenericTable from '../components/Tables/GenericTable';
+import {
+  IQuinielaUserDashboard,
+  IPredictionQuinielaUserDashboard,
+} from '../models';
 
 const httpServices = new HttpServices();
 
 export function DashboardDetail({
-  quinielaId,
+  userQuinielaDetail,
   onClose,
 }: {
-  quinielaId: number;
+  userQuinielaDetail: IQuinielaUserDashboard;
   onClose: () => void;
 }) {
-  const [rowUsers, setrowUsers] = useState<[]>([]);
+  const [predictionUser, setPredictionUser] = useState<
+    IPredictionQuinielaUserDashboard[]
+  >([]);
 
   const loadRows = () => {
     httpServices
-      .get(`${endpoint.dashboard.getByQuiniela}${quinielaId}`)
+      .get(
+        `${endpoint.dashboard.getByQuinielaUser}${userQuinielaDetail.quinielaId}/${userQuinielaDetail.userId}`
+      )
       .then(res => res.json())
       .then(data => {
-        setrowUsers(data || []);
+        setPredictionUser(data || []);
       });
   };
 
@@ -27,38 +45,61 @@ export function DashboardDetail({
     loadRows();
   }, []);
 
-  const columnNamePunter = [
-    {
-      name: 'position',
-      display: 'Nombre',
-      key: true,
-      isAction: false,
-      hidde: false,
-    },
-    {
-      name: 'fullName',
-      display: 'Nombre',
-      key: false,
-      isAction: false,
-      hidde: false,
-    },
-    {
-      name: 'userName',
-      display: 'Nombre usuario',
-      key: false,
-      isAction: false,
-      hidde: false,
-    },
-    {
-      name: 'total',
-      display: 'Total',
-      key: false,
-      isAction: false,
-      hidde: false,
-    },
-  ];
-
   return (
-    <GenericTable columns={columnNamePunter} rows={rowUsers}></GenericTable>
+    <>
+      {predictionUser.map((prediction, index) => {
+        return (
+          <Accordion allowToggle={true} key={index}>
+            <AccordionItem>
+              <h2>
+                <AccordionButton
+                  backgroundColor="white"
+                  _expanded={{
+                    bg: '#3182ce',
+                    color: 'white',
+                  }}>
+                  <Box flex="1" textAlign="left">
+                    {prediction.groupName ? `${prediction.groupName} - ` : ''}
+                    {prediction.team1Name} {' vs '} {prediction.team2Name}
+                    {' - '}
+                    {' Puntos: '} <strong>{prediction.totalPoint}</strong>
+                  </Box>
+                  <AccordionIcon />
+                </AccordionButton>
+              </h2>
+              <AccordionPanel>
+                <SimpleGrid>
+                  <Text>
+                    <strong>Marcador:</strong> {prediction.team1Name} {': '}{' '}
+                    {prediction.scoreTeam1Game} {' - '}
+                    {prediction.team2Name} {': '} {prediction.scoreTeam2Game}
+                  </Text>
+                </SimpleGrid>
+                <SimpleGrid>
+                  <Text>
+                    <strong>Predicción:</strong> {prediction.team1Name} {': '}{' '}
+                    {prediction.scorePredictionTeam1} {' - '}
+                    {prediction.team2Name} {': '}{' '}
+                    {prediction.scorePredictionTeam2}
+                  </Text>
+                </SimpleGrid>
+                <SimpleGrid>
+                  <Text>
+                    <strong> Puntos por resultado:</strong>{' '}
+                    {prediction.winPoint}
+                  </Text>
+                </SimpleGrid>
+                <SimpleGrid>
+                  <Text>
+                    <strong>Puntos por marcador:</strong>{' '}
+                    {prediction.scorePoint}
+                  </Text>
+                </SimpleGrid>
+              </AccordionPanel>
+            </AccordionItem>
+          </Accordion>
+        );
+      })}
+    </>
   );
 }
