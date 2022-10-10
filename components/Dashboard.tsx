@@ -72,7 +72,7 @@ export function Dashboard() {
     <>
       {rows.map((quiniela, index) => {
         return (
-          <Accordion allowToggle={true}>
+          <Accordion allowToggle={true} key={index}>
             <AccordionItem>
               <h2>
                 <AccordionButton
