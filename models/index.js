@@ -8,6 +8,7 @@ export { ISelected } from './ISelected.ts';
 export { ITeam } from './ITeam.ts';
 export { IQuiniela } from './IQuiniela.ts';
 export { IQuinielaPunter } from './IQuinielaPunter.ts';
+export { IQuinielaDashboard } from './IQuinielaDashboard.ts';
 
 // Class
 export { Game } from './Game.ts';

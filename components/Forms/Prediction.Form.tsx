@@ -1,19 +1,19 @@
 import { useState, useEffect } from 'react';
 import {
   FormControl,
-  FormLabel,
-  Select,
-  Input,
+  Tag,
   NumberInput,
   NumberInputField,
-  useColorModeValue,
   Box,
-  Button,
+  Divider,
   Badge,
   Center,
   SimpleGrid,
   Text,
+  Show,
+  Hide,
 } from '@chakra-ui/react';
+import { FormPredictionResult } from '../Forms';
 
 interface FormPredictionProps {
   predictionModel: any;
@@ -42,7 +42,11 @@ export function FormPrediction({
 
   return (
     <>
-      <form>
+      <Box
+        border={'1px #3182ce solid'}
+        margin={'5px'}
+        padding={'5px'}
+        borderRadius={'10px'}>
         <SimpleGrid minChildWidth="120px" spacing="40px">
           <Center>
             <Text fontSize="2xl">
@@ -64,6 +68,13 @@ export function FormPrediction({
             </Text>
           </Center>
         </SimpleGrid>
+        {predictionModel.closed ? (
+          <FormPredictionResult
+            key={predictionModel.gameId}
+            predictionModel={predictionModel}></FormPredictionResult>
+        ) : (
+          <></>
+        )}
         <SimpleGrid columns={2} spacing="20px">
           <Box>
             <SimpleGrid columns={1} spacing="5px">
@@ -82,7 +93,7 @@ export function FormPrediction({
                   defaultValue={prediction.scoreTeam1}
                   onChange={onChangeScoreTeam1}
                   isReadOnly={predictionModel.closed}>
-                  <NumberInputField />
+                  <NumberInputField textAlign={'center'} />
                 </NumberInput>
               </FormControl>
             </SimpleGrid>
@@ -104,13 +115,13 @@ export function FormPrediction({
                   defaultValue={prediction.scoreTeam2}
                   onChange={onChangeScoreTeam2}
                   isReadOnly={predictionModel.closed}>
-                  <NumberInputField />
+                  <NumberInputField textAlign={'center'} />
                 </NumberInput>
               </FormControl>
             </SimpleGrid>
           </Box>
         </SimpleGrid>
-      </form>
+      </Box>
     </>
   );
 }

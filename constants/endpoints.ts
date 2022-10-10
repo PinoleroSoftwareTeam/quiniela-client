@@ -3,6 +3,8 @@ export const endpoint = {
     signin: '/account/Signin',
     signup: '/account/signup',
     ping: '/account/ping',
+    getUser: '/account/getUser',
+    unlockUser: '/account/unlockUser/',
   },
   calendar: {
     get: '/calendar',

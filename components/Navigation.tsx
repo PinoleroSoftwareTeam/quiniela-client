@@ -111,11 +111,6 @@ export const MobileNav = ({ onOpen, userData, ...rest }: MobileProps) => {
 
       <HStack spacing={{ base: '0', md: '6' }}>
         <Flex alignItems={'center'}>
-          <Box margin={4}>
-            <Button variant="ghost" border="none" onClick={toggleColorMode}>
-              {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
-            </Button>
-          </Box>
           <Menu>
             <MenuButton
               py={2}
