@@ -15,13 +15,13 @@ import GenericTable from '../components/Tables/GenericTable';
 import AuthStore from '../services/AuthStore';
 import Modal from '../components/WindowModal';
 import { DashboardDetail } from './DashboardDetail';
-import { IQuinielaDashboard } from '../models';
+import { IQuinielaDashboard, IQuinielaUserDashboard } from '../models';
 
 const httpServices = new HttpServices();
 
 export function Dashboard() {
   const [rows, setRows] = useState<IQuinielaDashboard[]>([]);
-  const [quiniela, setQuiniela] = useState<IQuinielaDashboard>({});
+  const [userQuiniela, setUserQuiniela] = useState<IQuinielaUserDashboard>({});
   const modalUser = useDisclosure();
 
   const loadRows = () => {
@@ -39,8 +39,8 @@ export function Dashboard() {
     loadRows();
   }, []);
 
-  const onQuinielaPunterModel = (data: any) => {
-    setQuiniela(data);
+  const onUserPredictionModel = (data: any) => {
+    setUserQuiniela(data);
     modalUser.onOpen();
   };
 
@@ -66,10 +66,32 @@ export function Dashboard() {
       isAction: false,
       hidde: false,
     },
+    {
+      name: 'Ver predicción',
+      display: 'Ver predicción',
+      key: false,
+      isAction: true,
+      action: onUserPredictionModel,
+      hidde: false,
+    },
   ];
 
   return (
     <>
+      <Modal
+        title={
+          userQuiniela
+            ? `${userQuiniela.quinielaName} - ${userQuiniela.userName}`
+            : ''
+        }
+        isOpen={modalUser.isOpen}
+        onClose={modalUser.onClose}
+        closeByClickCancel={false}
+        size="full">
+        <DashboardDetail
+          userQuinielaDetail={userQuiniela}
+          onClose={modalUser.onClose}></DashboardDetail>
+      </Modal>
       {rows.map((quiniela, index) => {
         return (
           <Accordion allowToggle={true} key={index}>
