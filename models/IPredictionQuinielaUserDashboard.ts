@@ -17,4 +17,5 @@ export interface IPredictionQuinielaUserDashboard {
   winPoint: number;
   scorePoint: number;
   totalPoint: number;
+  dateFormat: string;
 }

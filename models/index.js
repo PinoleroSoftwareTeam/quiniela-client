@@ -11,6 +11,7 @@ export { IQuinielaPunter } from './IQuinielaPunter.ts';
 export { IQuinielaDashboard } from './IQuinielaDashboard.ts';
 export { IQuinielaUserDashboard } from './IQuinielaUserDashboard.ts';
 export { IPredictionQuinielaUserDashboard } from './IPredictionQuinielaUserDashboard.ts';
+export { IPredictionQuinielaUserDashboardByDate } from './IPredictionQuinielaUserDashboardByDate.ts';
 
 // Class
 export { Game } from './Game.ts';

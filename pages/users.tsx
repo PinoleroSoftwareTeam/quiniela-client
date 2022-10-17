@@ -51,9 +51,7 @@ export default function Users() {
         }
         loadRows();
       })
-      .catch(error => {
-        console.log(error);
-      });
+      .catch(error => {});
   };
 
   const columnsName = [

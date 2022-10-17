@@ -79,9 +79,7 @@ export default function SidebarWithHeader({
           router.push('/auth/signin');
         }
       })
-      .catch(error => {
-        console.log(error);
-      });
+      .catch(error => {});
   }, []);
 
   const { isOpen, onOpen, onClose } = useDisclosure();

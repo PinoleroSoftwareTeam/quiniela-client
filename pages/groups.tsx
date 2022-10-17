@@ -78,9 +78,7 @@ export default function Group() {
       .then(data => {
         loadRows();
       })
-      .catch(error => {
-        console.log(error);
-      });
+      .catch(error => {});
   };
 
   const onClickNuevo = (e: any) => {

@@ -54,9 +54,7 @@ export function FormCalendar({
           onClose();
           onLoadData();
         })
-        .catch(error => {
-          console.log(error);
-        });
+        .catch(error => {});
     } else
       httpServices
         .post(endpoint.calendar.post, calendar)
@@ -77,9 +75,7 @@ export function FormCalendar({
           onClose();
           onLoadData();
         })
-        .catch(error => {
-          console.log(error);
-        });
+        .catch(error => {});
   };
 
   return (

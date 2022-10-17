@@ -103,9 +103,7 @@ export function FormGames({
         onClose();
         onLoadData();
       })
-      .catch(error => {
-        console.log(error);
-      });
+      .catch(error => {});
   };
 
   const update = () => {
@@ -128,9 +126,7 @@ export function FormGames({
         onClose();
         onLoadData();
       })
-      .catch(error => {
-        console.log(error);
-      });
+      .catch(error => {});
   };
 
   const handleOnClickSave = (e: any) => {

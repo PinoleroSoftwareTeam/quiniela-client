@@ -87,9 +87,7 @@ function Quinielas() {
         }
         loadRows();
       })
-      .catch(error => {
-        console.log(error);
-      });
+      .catch(error => {});
   };
 
   const onChangeActive = (e: any, data: any) => {
@@ -113,9 +111,7 @@ function Quinielas() {
         }
         loadRows();
       })
-      .catch(error => {
-        console.log(error);
-      });
+      .catch(error => {});
   };
 
   const onAddUser = (data: any) => {
@@ -146,7 +142,6 @@ function Quinielas() {
       })
       .catch(error => {
         setIsLoadingCalc(false);
-        console.log(error);
       });
   };
 

@@ -38,7 +38,6 @@ export function FormGameResult({
   const onChangeScoreTeam2 = (valueAsString: string, valueAsNumber: number) => {
     setGames({ ...game, pointTeam2: valueAsNumber });
   };
-  console.log(modelGame);
   const handleOnClickSave = (e: any) => {
     httpServices
       .put(endpoint.game.putResult, game.id, game)
@@ -59,9 +58,7 @@ export function FormGameResult({
         onClose();
         onLoadData();
       })
-      .catch(error => {
-        console.log(error);
-      });
+      .catch(error => {});
   };
 
   return (

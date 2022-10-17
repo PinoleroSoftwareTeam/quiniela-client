@@ -68,7 +68,7 @@ export function FormPrediction({
             </Text>
           </Center>
         </SimpleGrid>
-        {predictionModel.closed ? (
+        {predictionModel.qualified ? (
           <FormPredictionResult
             key={predictionModel.gameId}
             predictionModel={predictionModel}></FormPredictionResult>
@@ -92,7 +92,8 @@ export function FormPrediction({
                   placeholder="Punto equipo 1"
                   defaultValue={prediction.scoreTeam1}
                   onChange={onChangeScoreTeam1}
-                  isReadOnly={predictionModel.closed}>
+                  isReadOnly={predictionModel.closed}
+                  precision={0}>
                   <NumberInputField textAlign={'center'} />
                 </NumberInput>
               </FormControl>
@@ -114,7 +115,8 @@ export function FormPrediction({
                   placeholder="Punto equipo 2"
                   defaultValue={prediction.scoreTeam2}
                   onChange={onChangeScoreTeam2}
-                  isReadOnly={predictionModel.closed}>
+                  isReadOnly={predictionModel.closed}
+                  precision={0}>
                   <NumberInputField textAlign={'center'} />
                 </NumberInput>
               </FormControl>

@@ -74,7 +74,6 @@ export default function Predictions() {
       )
       .then(res => res.json())
       .then(data => {
-        console.log(data);
         setPredictions(data);
       });
   };
@@ -135,7 +134,6 @@ export default function Predictions() {
         setPredictions([]);
       })
       .catch(error => {
-        console.log(error);
         setLoading(false);
       });
   };
