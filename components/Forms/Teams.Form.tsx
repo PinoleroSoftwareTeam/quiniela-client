@@ -55,9 +55,7 @@ export function FormTeam({
           onClose();
           onLoadData();
         })
-        .catch(error => {
-          console.log(error);
-        });
+        .catch(error => {});
     } else
       httpServices
         .post(endpoint.team.post, team)
@@ -78,9 +76,7 @@ export function FormTeam({
           onClose();
           onLoadData();
         })
-        .catch(error => {
-          console.log(error);
-        });
+        .catch(error => {});
   };
 
   return (

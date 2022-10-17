@@ -48,9 +48,7 @@ export default function SignIn() {
         if (res.status == 200) router.push('/');
         return;
       })
-      .then(data => {
-        console.log(data);
-      });
+      .then(data => {});
   }, []);
 
   const [showPassword, setShowPassword] = useState(false);
@@ -89,9 +87,7 @@ export default function SignIn() {
           onCloseComplete: () => router.push('/auth/signin'),
         });
       })
-      .catch(error => {
-        console.log(error);
-      });
+      .catch(error => {});
   };
 
   return (

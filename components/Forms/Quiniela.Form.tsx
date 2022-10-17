@@ -58,9 +58,7 @@ export function FormQuiniela({
         onClose();
         onLoadData();
       })
-      .catch(error => {
-        console.log(error);
-      });
+      .catch(error => {});
   };
 
   const update = () => {
@@ -83,9 +81,7 @@ export function FormQuiniela({
         onClose();
         onLoadData();
       })
-      .catch(error => {
-        console.log(error);
-      });
+      .catch(error => {});
   };
 
   const handleOnClickSave = (e: any) => {

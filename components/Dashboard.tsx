@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import {
   useToast,
   useDisclosure,
@@ -20,6 +21,7 @@ import { IQuinielaDashboard, IQuinielaUserDashboard } from '../models';
 const httpServices = new HttpServices();
 
 export function Dashboard() {
+  const router = useRouter();
   const [rows, setRows] = useState<IQuinielaDashboard[]>([]);
   const [userQuiniela, setUserQuiniela] = useState<IQuinielaUserDashboard>({});
   const modalUser = useDisclosure();
@@ -30,7 +32,6 @@ export function Dashboard() {
       .get(`${endpoint.dashboard.getByUser}${user.userId}`)
       .then(res => res.json())
       .then(data => {
-        console.log(data);
         setRows(data || []);
       });
   };
@@ -40,8 +41,8 @@ export function Dashboard() {
   }, []);
 
   const onUserPredictionModel = (data: any) => {
-    setUserQuiniela(data);
-    modalUser.onOpen();
+    const url = `/dashboardDetails?param1=${data.quinielaId}&param2=${data.userId}`;
+    router.push(url);
   };
 
   const columnNamePunter = [

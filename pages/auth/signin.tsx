@@ -32,16 +32,19 @@ interface ILogin {
 
 export default function SignIn() {
   const router = useRouter();
-  useEffect(() => {
-    new HttpServices()
+
+  const getPing = () => {
+    httpServices
       .get(endpoint.auth.ping)
       .then(res => {
         if (res.status == 200) router.push('/');
         return;
       })
-      .then(data => {
-        console.log(data);
-      });
+      .then(data => {});
+  };
+
+  useEffect(() => {
+    getPing();
   }, []);
 
   const [showPassword, setShowPassword] = useState(false);
@@ -82,9 +85,7 @@ export default function SignIn() {
           onCloseComplete: () => router.push('/'),
         });
       })
-      .catch(error => {
-        console.log(error);
-      });
+      .catch(error => {});
   };
 
   return (

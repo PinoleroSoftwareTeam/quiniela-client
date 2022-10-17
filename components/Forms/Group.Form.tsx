@@ -58,9 +58,7 @@ export function FormGroup({
           onClose();
           onLoadData();
         })
-        .catch(error => {
-          console.log(error);
-        });
+        .catch(error => {});
     } else
       httpServices
         .post(endpoint.group.post, group)
@@ -81,9 +79,7 @@ export function FormGroup({
           onClose();
           onLoadData();
         })
-        .catch(error => {
-          console.log(error);
-        });
+        .catch(error => {});
   };
 
   return (

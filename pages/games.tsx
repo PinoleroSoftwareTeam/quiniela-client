@@ -140,9 +140,7 @@ function Games() {
         }
         loadRows();
       })
-      .catch(error => {
-        console.log(error);
-      });
+      .catch(error => {});
   };
 
   const onClickImport = () => {
@@ -175,9 +173,7 @@ function Games() {
           }
           loadRows();
         })
-        .catch(error => {
-          console.log(error);
-        });
+        .catch(error => {});
     };
     fileSelector.click();
   };

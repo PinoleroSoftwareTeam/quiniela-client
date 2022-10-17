@@ -52,9 +52,7 @@ export function FormPhase({
           onClose();
           onLoadData();
         })
-        .catch(error => {
-          console.log(error);
-        });
+        .catch(error => {});
     } else
       httpServices
         .post(endpoint.phase.post, phase)
@@ -75,9 +73,7 @@ export function FormPhase({
           onClose();
           onLoadData();
         })
-        .catch(error => {
-          console.log(error);
-        });
+        .catch(error => {});
   };
 
   return (
