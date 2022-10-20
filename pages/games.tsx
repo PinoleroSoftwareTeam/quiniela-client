@@ -48,6 +48,7 @@ function Games() {
   const [phase, setPhase] = useState<ISelected>([]);
   const [game, setGame] = useState<IGame>(new Game());
   const [gameResult, setGameResult] = useState<IGame>(new Game());
+  const [gameIsEliminatoryResult, setGameIsEliminatoryResult] = useState(false);
   const [calendarCbo, setCalendarCbo] = useState<ISelected[]>([]);
   const [phaseCbo, setPhaseCbo] = useState<ISelected[]>([]);
   const [filter, setFilter] = useState<IFilter>();
@@ -113,6 +114,7 @@ function Games() {
 
   const onClickEditResult = (data: any) => {
     setGameResult(data);
+    setGameIsEliminatoryResult(data.isEliminatory);
     formResultDrawer.onOpen();
   };
 
@@ -225,14 +227,14 @@ function Games() {
       hidde: false,
     },
     {
-      name: 'pointTeam1',
+      name: 'pointTeam1Result',
       display: 'GOLES EQUIPO 1',
       key: false,
       isAction: false,
       hidde: false,
     },
     {
-      name: 'pointTeam2',
+      name: 'pointTeam2Result',
       display: 'GOLES EQUIPO 2',
       key: false,
       isAction: false,
@@ -285,7 +287,8 @@ function Games() {
           <FormGameResult
             onClose={formResultDrawer.onClose}
             modelGame={gameResult}
-            onLoadData={loadRows}></FormGameResult>
+            onLoadData={loadRows}
+            isEliminatory={gameIsEliminatoryResult}></FormGameResult>
         </Drawer>
         <MessageDialog
           title="Eliminar Juego?"

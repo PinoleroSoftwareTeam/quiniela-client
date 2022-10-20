@@ -8,4 +8,6 @@ export interface IGame {
   pointTeam1: number;
   pointTeam2: number;
   groupId: number;
+  winPenaltiesTeam1: boolean;
+  winPenaltiesTeam2: boolean;
 }

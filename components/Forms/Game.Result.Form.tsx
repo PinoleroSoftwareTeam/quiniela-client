@@ -10,6 +10,9 @@ import {
   Button,
   Select,
   useToast,
+  RadioGroup,
+  Radio,
+  Stack,
 } from '@chakra-ui/react';
 import HttpServices from '../../services/httpServices';
 import { endpoint } from '../../constants/endpoints';
@@ -21,12 +24,14 @@ interface FormGameResultProps {
   onClose: () => void;
   modelGame: IGame;
   onLoadData: () => void;
+  isEliminatory: boolean;
 }
 
 export function FormGameResult({
   onClose,
   modelGame,
   onLoadData,
+  isEliminatory,
 }: FormGameResultProps) {
   const toast = useToast();
   const [game, setGames] = useState<IGame>(modelGame);
@@ -38,6 +43,20 @@ export function FormGameResult({
   const onChangeScoreTeam2 = (valueAsString: string, valueAsNumber: number) => {
     setGames({ ...game, pointTeam2: valueAsNumber });
   };
+
+  const onChangeWinPenalties = (e: any) => {
+    if (e === '1') {
+      game.winPenaltiesTeam1 = true;
+      game.winPenaltiesTeam2 = false;
+      setGames(game);
+    } else {
+      game.winPenaltiesTeam1 = false;
+      game.winPenaltiesTeam2 = true;
+      setGames(game);
+    }
+    console.log(game);
+  };
+
   const handleOnClickSave = (e: any) => {
     httpServices
       .put(endpoint.game.putResult, game.id, game)
@@ -102,7 +121,29 @@ export function FormGameResult({
                 <NumberInputField />
               </NumberInput>
             </FormControl>
-            <br></br>
+            <br />
+            {!isEliminatory ? (
+              <></>
+            ) : (
+              <FormControl>
+                <FormLabel>Ganador por penal</FormLabel>
+                <RadioGroup
+                  onChange={onChangeWinPenalties}
+                  defaultValue={
+                    modelGame.winPenaltiesTeam1
+                      ? '1'
+                      : modelGame.winPenaltiesTeam2
+                      ? '2'
+                      : ''
+                  }>
+                  <Stack>
+                    <Radio value="1">{modelGame.team1Name}</Radio>
+                    <Radio value="2">{modelGame.team2Name}</Radio>
+                  </Stack>
+                </RadioGroup>
+              </FormControl>
+            )}
+            <br />
             <Button colorScheme="teal" onClick={handleOnClickSave}>
               Guardar
             </Button>

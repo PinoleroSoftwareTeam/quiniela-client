@@ -12,6 +12,10 @@ import {
   Text,
   Show,
   Hide,
+  Checkbox,
+  RadioGroup,
+  Radio,
+  Stack,
 } from '@chakra-ui/react';
 import { FormPredictionResult } from '../Forms';
 
@@ -20,6 +24,11 @@ interface FormPredictionProps {
   index: number;
   onChangePredictionScoreTeam1: (index: number, scoreTeam1: number) => void;
   onChangePredictionScoreTeam2: (index: number, scoreTeam2: number) => void;
+  onChangePredictionWinPenaltiesTeam: (
+    index: number,
+    winPenaltiesTeam1: boolean,
+    winPenaltiesTeam2: boolean
+  ) => void;
 }
 
 export function FormPrediction({
@@ -27,17 +36,39 @@ export function FormPrediction({
   index,
   onChangePredictionScoreTeam1,
   onChangePredictionScoreTeam2,
+  onChangePredictionWinPenaltiesTeam,
 }: FormPredictionProps) {
   const [prediction, setPrediction] = useState(predictionModel);
+  const [isPredictionPenalties, setIsPredictionPenalties] = useState(
+    predictionModel.scoreTeam1 === predictionModel.scoreTeam2
+  );
 
   const onChangeScoreTeam1 = (valueAsString: string, valueAsNumber: number) => {
     setPrediction({ ...prediction, scoreTeam1: valueAsNumber });
     onChangePredictionScoreTeam1(index, valueAsNumber);
+    setIsPredictionPenalties(valueAsNumber === prediction.scoreTeam2);
   };
 
   const onChangeScoreTeam2 = (valueAsString: string, valueAsNumber: number) => {
     setPrediction({ ...prediction, scoreTeam2: valueAsNumber });
     onChangePredictionScoreTeam2(index, valueAsNumber);
+    setIsPredictionPenalties(prediction.scoreTeam1 === valueAsNumber);
+  };
+
+  const onChangeWinPenaltiesSelection = (e: string) => {
+    if (e === '1') {
+      prediction.winPenaltiesTeam2Prediction = true;
+      prediction.winPenaltiesTeam1Prediction = false;
+    } else {
+      prediction.winPenaltiesTeam2Prediction = true;
+      prediction.winPenaltiesTeam1Prediction = false;
+    }
+    setPrediction(prediction);
+    onChangePredictionWinPenaltiesTeam(
+      index,
+      prediction.winPenaltiesTeam1Prediction,
+      prediction.winPenaltiesTeam2Prediction
+    );
   };
 
   return (
@@ -72,6 +103,35 @@ export function FormPrediction({
           <FormPredictionResult
             key={predictionModel.gameId}
             predictionModel={predictionModel}></FormPredictionResult>
+        ) : (
+          <></>
+        )}
+        {!predictionModel.isEliminatory ? (
+          <></>
+        ) : isPredictionPenalties ? (
+          <SimpleGrid>
+            <Center>Ganador en penales</Center>
+            <Center>
+              <RadioGroup
+                defaultValue={
+                  prediction.winPenaltiesTeam1Prediction
+                    ? '1'
+                    : prediction.winPenaltiesTeam2Prediction
+                    ? '2'
+                    : ''
+                }
+                onChange={onChangeWinPenaltiesSelection}>
+                <Stack spacing={5} direction="row">
+                  <Radio colorScheme="green" value="1">
+                    {predictionModel.team1Name}
+                  </Radio>
+                  <Radio colorScheme="green" value="2">
+                    {predictionModel.team2Name}
+                  </Radio>
+                </Stack>
+              </RadioGroup>
+            </Center>
+          </SimpleGrid>
         ) : (
           <></>
         )}
