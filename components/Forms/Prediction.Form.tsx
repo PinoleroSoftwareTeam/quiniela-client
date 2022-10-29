@@ -57,11 +57,11 @@ export function FormPrediction({
 
   const onChangeWinPenaltiesSelection = (e: string) => {
     if (e === '1') {
-      prediction.winPenaltiesTeam2Prediction = true;
-      prediction.winPenaltiesTeam1Prediction = false;
+      prediction.winPenaltiesTeam1Prediction = true;
+      prediction.winPenaltiesTeam2Prediction = false;
     } else {
-      prediction.winPenaltiesTeam2Prediction = true;
       prediction.winPenaltiesTeam1Prediction = false;
+      prediction.winPenaltiesTeam2Prediction = true;
     }
     setPrediction(prediction);
     onChangePredictionWinPenaltiesTeam(

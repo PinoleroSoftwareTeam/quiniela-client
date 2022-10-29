@@ -23,8 +23,8 @@ export function FormPredictionResult({ predictionModel }: FormPredictionProps) {
         <Center>
           <Text fontSize="1xl">
             <Badge ml="1" fontSize="0.8em" colorScheme="green">
-              Resultado: {predictionModel.scoreTeam1Game} {' - '}
-              {predictionModel.scoreTeam2Game}
+              Resultado: {predictionModel.pointTeam1GameResult} {' - '}
+              {predictionModel.pointTeam2GameResult}
             </Badge>
           </Text>
         </Center>

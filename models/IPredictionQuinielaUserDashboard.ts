@@ -18,4 +18,8 @@ export interface IPredictionQuinielaUserDashboard {
   scorePoint: number;
   totalPoint: number;
   dateFormat: string;
+  pointTeam1GameResult: string;
+  pointTeam2GameResult: string;
+  pointTeam1PredictionResult: string;
+  pointTeam2PredictionResult: string;
 }

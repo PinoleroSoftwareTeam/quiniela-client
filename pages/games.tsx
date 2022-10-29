@@ -18,15 +18,10 @@ import {
   Center,
 } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
-
 import Drawer from '../components/Drawer';
 import Layout from '../components/Layout';
-
-import { TableGames } from '../components/Tables';
 import { FormGames, FormGameResult } from '../components/Forms';
-
 import { IGame, Game, ISelected } from '../models';
-
 import HttpServices from '../services/httpServices';
 import { endpoint } from '../constants/endpoints';
 import GenericTable from '../components/Tables/GenericTable';
