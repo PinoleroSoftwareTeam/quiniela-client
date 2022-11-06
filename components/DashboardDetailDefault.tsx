@@ -43,16 +43,16 @@ export default function DashboardDetailDefault({
                 <SimpleGrid>
                   <Text>
                     <strong>Marcador:</strong> {prediction.team1Name} {': '}{' '}
-                    {prediction.scoreTeam1Game} {' - '}
-                    {prediction.team2Name} {': '} {prediction.scoreTeam2Game}
+                    {prediction.pointTeam1GameResult} {' - '}
+                    {prediction.team2Name} {': '} {prediction.pointTeam2GameResult}
                   </Text>
                 </SimpleGrid>
                 <SimpleGrid>
                   <Text>
                     <strong>Predicción:</strong> {prediction.team1Name} {': '}{' '}
-                    {prediction.scorePredictionTeam1} {' - '}
+                    {prediction.pointTeam1PredictionResult} {' - '}
                     {prediction.team2Name} {': '}{' '}
-                    {prediction.scorePredictionTeam2}
+                    {prediction.pointTeam2PredictionResult}
                   </Text>
                 </SimpleGrid>
                 <SimpleGrid>

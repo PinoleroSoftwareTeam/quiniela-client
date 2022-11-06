@@ -7,6 +7,7 @@ import {
   Spacer,
   useDisclosure,
   Button,
+  useToast,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
@@ -26,10 +27,11 @@ export default function Phase() {
       id: 0,
       name: '',
       description: '',
+      isEliminatory: false,
     };
     return newModelPhase;
   };
-
+  const toast = useToast();
   const drawerForm = useDisclosure();
   const dialogAlert = useDisclosure();
   const [rows, setRows] = useState<[]>([]);
@@ -72,6 +74,30 @@ export default function Phase() {
     drawerForm.onOpen();
   };
 
+  const onChangeIsEliminatory = (e: any, data: any) => {
+    const { checked } = e.target;
+    data.isEliminatory = checked;
+    httpServices
+      .put(endpoint.phase.put, data.id, data)
+      .then(res => {
+        return res.json();
+      })
+      .then(data => {
+        if (data.error) {
+          toast({
+            title: 'Error',
+            description: data.message,
+            status: 'error',
+            duration: 4000,
+            isClosable: true,
+          });
+          return;
+        }
+        loadRows();
+      })
+      .catch(error => {});
+  };
+
   const columnsName = [
     { name: 'id', display: 'Id', key: true, isAction: false, hidde: false },
     {
@@ -86,6 +112,15 @@ export default function Phase() {
       display: 'Description',
       key: false,
       isAction: false,
+      hidde: false,
+    },
+    {
+      name: 'isEliminatory',
+      display: 'Es eliminatorias',
+      key: false,
+      isAction: false,
+      isCheck: true,
+      event: onChangeIsEliminatory,
       hidde: false,
     },
     {

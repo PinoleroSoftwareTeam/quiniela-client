@@ -36,7 +36,7 @@ function GenericTable({ columns, rows }: { columns: ColumnData[]; rows: [] }) {
   return (
     <Box bg="white" p={8}>
       <TableContainer>
-        <Table variant="simple">
+        <Table variant="simple" key="tableGeneric">
           <Thead>
             <Tr>
               {columns.map((column, index) =>

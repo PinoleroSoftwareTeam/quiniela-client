@@ -75,6 +75,7 @@ export default function Predictions() {
       .then(res => res.json())
       .then(data => {
         setPredictions(data);
+        console.log(data);
       });
   };
 
@@ -107,6 +108,21 @@ export default function Predictions() {
     arrayPrediction.forEach((prediction: any, predictionIndex: number) => {
       if (predictionIndex == index) {
         prediction.scoreTeam2 = scoreTeam2;
+      }
+    });
+    setPredictions(arrayPrediction);
+  };
+
+  const onChangePredictionWinPenaltiesTeam = (
+    index: number,
+    winPenaltiesTeam1: boolean,
+    winPenaltiesTeam2: boolean
+  ) => {
+    const arrayPrediction = predictions;
+    arrayPrediction.forEach((prediction: any, predictionIndex: number) => {
+      if (predictionIndex == index) {
+        prediction.winPenaltiesTeam1Prediction = winPenaltiesTeam1;
+        prediction.winPenaltiesTeam2Prediction = winPenaltiesTeam2;
       }
     });
     setPredictions(arrayPrediction);
@@ -213,8 +229,9 @@ export default function Predictions() {
                   predictionModel={prediction}
                   index={index}
                   onChangePredictionScoreTeam1={onChangePredictionScoreTeam1}
-                  onChangePredictionScoreTeam2={
-                    onChangePredictionScoreTeam2
+                  onChangePredictionScoreTeam2={onChangePredictionScoreTeam2}
+                  onChangePredictionWinPenaltiesTeam={
+                    onChangePredictionWinPenaltiesTeam
                   }></FormPrediction>
               );
             })}
