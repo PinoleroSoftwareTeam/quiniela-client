@@ -9,6 +9,7 @@ import {
   AccordionIcon,
   AccordionItem,
   AccordionPanel,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import HttpServices from '../services/httpServices';
 import { endpoint } from '../constants/endpoints';
@@ -23,7 +24,7 @@ const httpServices = new HttpServices();
 export function Dashboard() {
   const router = useRouter();
   const [rows, setRows] = useState<IQuinielaDashboard[]>([]);
-  const [userQuiniela, setUserQuiniela] = useState<IQuinielaUserDashboard>({});
+  const [userQuiniela] = useState<IQuinielaUserDashboard>({});
   const modalUser = useDisclosure();
 
   const loadRows = () => {
@@ -44,6 +45,9 @@ export function Dashboard() {
     const url = `/dashboardDetails?param1=${data.quinielaId}&param2=${data.userId}`;
     router.push(url);
   };
+
+  const bgColor = useColorModeValue('brand.purple', 'brand.yellow');
+  const bgColorHover = useColorModeValue('brand.purple-dark', 'brand.yellow-dark');
 
   const columnNamePunter = [
     {
@@ -91,7 +95,7 @@ export function Dashboard() {
         size="full">
         <DashboardDetail
           userQuinielaDetail={userQuiniela}
-          onClose={modalUser.onClose}></DashboardDetail>
+          onClose={modalUser.onClose} />
       </Modal>
       {rows.map((quiniela, index) => {
         return (
@@ -99,8 +103,11 @@ export function Dashboard() {
             <AccordionItem>
               <h2>
                 <AccordionButton
-                  backgroundColor="white"
-                  _expanded={{ bg: '#3182ce', color: 'white' }}>
+                  backgroundColor={bgColor}
+                  color="white"
+                  _hover={{
+                    bg: bgColorHover,
+                  }}>
                   <Box flex="1" textAlign="left">
                     {quiniela.quinielaName}
                   </Box>

@@ -39,12 +39,7 @@ export default function DashboardDetailByFecha({
           <Accordion allowToggle={true} key={index}>
             <AccordionItem>
               <h2>
-                <AccordionButton
-                  backgroundColor="white"
-                  _expanded={{
-                    bg: '#3182ce',
-                    color: 'white',
-                  }}>
+                <AccordionButton>
                   <Box flex="1" textAlign="left">
                     {predictionByDate.date}
                     {' - '}

@@ -154,6 +154,9 @@ export default function Predictions() {
       });
   };
 
+  const bgColor = useColorModeValue('brand.purple', 'brand.yellow');
+  const bgColorHover = useColorModeValue('brand.purple-dark', 'brand.yellow-dark');
+
   return (
     <>
       <main>
@@ -167,9 +170,9 @@ export default function Predictions() {
             </Heading>
             <br />
             <form>
-              <Grid templateColumns="repeat(5, 1fr)" gap={8}>
-                <GridItem colSpan={2} h="10">
-                  <FormControl>
+              <Flex align="end" mb='14'>
+                <Box flex="1" px="4">
+                  <FormControl w="full">
                     <FormLabel htmlFor="quinielaId">Quinielas</FormLabel>
                     <Select
                       id="quinielaId"
@@ -187,9 +190,9 @@ export default function Predictions() {
                       ))}
                     </Select>
                   </FormControl>
-                </GridItem>
-                <GridItem colStart={4} colEnd={6} h="10">
-                  <FormControl>
+                </Box>
+                <Box flex="1" px="4">
+                  <FormControl w="full">
                     <FormLabel htmlFor="pahseId">Fases</FormLabel>
                     <Select
                       id="phaseId"
@@ -207,21 +210,22 @@ export default function Predictions() {
                       ))}
                     </Select>
                   </FormControl>
-                </GridItem>
-              </Grid>
-              <br />
-              <Center>
-                <IconButton
-                  colorScheme="blue"
-                  aria-label="Search database"
-                  onClick={onClickFind}
-                  icon={<SearchIcon />}
-                />
-              </Center>
+                </Box>
+                <Box>
+                  <IconButton
+                    size="lg"
+                    bg={bgColor}
+                    _hover={{
+                      bg: bgColorHover,
+                    }}
+                    color='white'
+                    aria-label="Search database"
+                    onClick={onClickFind}
+                    icon={<SearchIcon />}
+                  />
+                </Box>
+              </Flex>
             </form>
-            <br />
-            <br />
-            <br />
             {predictions.map((prediction: any, index: number) => {
               return (
                 <FormPrediction
@@ -235,8 +239,6 @@ export default function Predictions() {
                   }></FormPrediction>
               );
             })}
-            <br />
-            <br />
             {predictions && predictions.length > 0 ? (
               <Center>
                 <Button

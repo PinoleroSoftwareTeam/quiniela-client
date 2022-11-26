@@ -43,8 +43,8 @@ export default function DashboardDetails() {
   });
   const [groupByDate, setGroupByDate] = useState(false);
 
-  const loadData = () => {
-    httpServices
+  const loadData = async () => {
+    await httpServices
       .get(`${endpoint.dashboard.getByQuinielaUser}${param1}/${param2}`)
       .then(res => res.json())
       .then(data => {
@@ -54,14 +54,16 @@ export default function DashboardDetails() {
 
   const sortGroupByDate = (data: IPredictionQuinielaUserDashboard[]) => {
     const dataByDate: IPredictionQuinielaUserDashboardByDate[] = [];
-    data.forEach(item => {
-      const existsGroup = dataByDate.filter(x => x.date === item.dateFormat);
-      if (existsGroup && existsGroup.length === 0)
-        dataByDate.push({
-          predictions: [],
-          date: item.dateFormat,
-        });
-    });
+    if (data && data.length > 0) {
+      data.map(item => {
+        const existsGroup = dataByDate.filter(x => x.date === item.dateFormat);
+        if (existsGroup && existsGroup.length === 0)
+          dataByDate.push({
+            predictions: [],
+            date: item.dateFormat,
+          });
+      });
+    }
     dataByDate.forEach(groupDate => {
       const existsPredictions = data.filter(
         x => x.dateFormat === groupDate.date
@@ -81,7 +83,7 @@ export default function DashboardDetails() {
 
   useEffect(() => {
     loadData();
-  }, []);
+  }, [param1, param2]);
 
   const onChangeGroupByDate = (e: any) => {
     const { checked } = e.target;
@@ -111,7 +113,9 @@ export default function DashboardDetails() {
           <br></br>
           {!groupByDate ? (
             <DashboardDetailDefault
-              predictions={data.predictionDefault}></DashboardDetailDefault>
+              // predictions={data.predictionDefault}
+              predictions={data.predictionByDate}
+              ></DashboardDetailDefault>
           ) : (
             <DashboardDetailByFecha
               predictions={data.predictionByDate}></DashboardDetailByFecha>

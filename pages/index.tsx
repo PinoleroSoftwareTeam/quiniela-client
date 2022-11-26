@@ -1,3 +1,4 @@
+import { Button } from '@chakra-ui/react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Layout from '../components/Layout';
@@ -11,7 +12,8 @@ const Home: NextPage = () => {
       </Head>
 
       <main>
-        <Layout></Layout>
+        <Layout>
+        </Layout>
       </main>
     </div>
   );
