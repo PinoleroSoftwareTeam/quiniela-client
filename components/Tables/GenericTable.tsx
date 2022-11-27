@@ -3,18 +3,17 @@ import {
   Table,
   Thead,
   Tbody,
-  Tfoot,
   Tr,
   Th,
   Td,
   TableContainer,
-  useColorModeValue,
   Box,
   CircularProgress,
   Button,
   Show,
   Hide,
   Switch,
+  useColorModeValue,
 } from '@chakra-ui/react';
 
 interface ColumnData {
@@ -29,12 +28,16 @@ interface ColumnData {
 }
 
 function GenericTable({ columns, rows }: { columns: ColumnData[]; rows: [] }) {
-  const [isLoading, setLoading] = useState(false);
-
-  if (isLoading) return <CircularProgress isIndeterminate color="green.300" />;
-
+  const bgColor = useColorModeValue('brand.purple', 'brand.yellow');
+  const bgColorHover = useColorModeValue(
+    'brand.purple-dark',
+    'brand.yellow-dark'
+  );
   return (
-    <Box bg="white" p={8}>
+    <Box
+      bg={useColorModeValue('white', 'gray.700')}
+      textColor={useColorModeValue('gray.900', 'white')}
+      p={8}>
       <TableContainer>
         <Table variant="simple" key="tableGeneric">
           <Thead>
@@ -53,51 +56,57 @@ function GenericTable({ columns, rows }: { columns: ColumnData[]; rows: [] }) {
             </Tr>
           </Thead>
           <Tbody>
-            {rows.map((row, rowIndex) => {
-              let keyColumn = columns.filter(x => x.key)[0];
-              let keyName = keyColumn ? keyColumn.name : '';
-              return (
-                <Tr key={rowIndex}>
-                  {columns.map((column, columnIndex) =>
-                    !column.isAction ? (
-                      !column.isCheck ? (
-                        !column.hidde ? (
-                          <Show>
-                            <Td key={keyName ? row[keyName] : rowIndex}>
-                              {row[column.name]}
-                            </Td>
-                          </Show>
+            {rows &&
+              rows.map((row, rowIndex) => {
+                let keyColumn = columns.filter(x => x.key)[0];
+                let keyName = keyColumn ? keyColumn.name : '';
+                return (
+                  <Tr key={rowIndex}>
+                    {columns.map((column, columnIndex) =>
+                      !column.isAction ? (
+                        !column.isCheck ? (
+                          !column.hidde ? (
+                            <Show>
+                              <Td key={keyName ? row[keyName] : rowIndex}>
+                                {row[column.name]}
+                              </Td>
+                            </Show>
+                          ) : (
+                            <Hide>
+                              <Td key={keyName ? row[keyName] : rowIndex}>
+                                {row[column.name]}
+                              </Td>
+                            </Hide>
+                          )
                         ) : (
-                          <Hide>
-                            <Td key={keyName ? row[keyName] : rowIndex}>
-                              {row[column.name]}
-                            </Td>
-                          </Hide>
+                          <Td>
+                            <Switch
+                              key={keyName ? row[keyName] : rowIndex}
+                              isChecked={
+                                row[column.name] ? row[column.name] : false
+                              }
+                              onChange={e => column.event(e, row)}
+                            />
+                          </Td>
                         )
                       ) : (
                         <Td>
-                          <Switch
+                          <Button
+                            backgroundColor={bgColor}
+                            color="white"
+                            _hover={{
+                              bg: bgColorHover,
+                            }}
                             key={keyName ? row[keyName] : rowIndex}
-                            isChecked={
-                              row[column.name] ? row[column.name] : false
-                            }
-                            onChange={e => column.event(e, row)}
-                          />
+                            onClick={() => column.action(row)}>
+                            {column.name}
+                          </Button>
                         </Td>
                       )
-                    ) : (
-                      <Td>
-                        <Button
-                          key={keyName ? row[keyName] : rowIndex}
-                          onClick={() => column.action(row)}>
-                          {column.name}
-                        </Button>
-                      </Td>
-                    )
-                  )}
-                </Tr>
-              );
-            })}
+                    )}
+                  </Tr>
+                );
+              })}
           </Tbody>
         </Table>
       </TableContainer>

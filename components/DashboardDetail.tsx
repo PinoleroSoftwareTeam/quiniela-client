@@ -11,7 +11,6 @@ import {
 } from '@chakra-ui/react';
 import HttpServices from '../services/httpServices';
 import { endpoint } from '../constants/endpoints';
-import GenericTable from '../components/Tables/GenericTable';
 import {
   IQuinielaUserDashboard,
   IPredictionQuinielaUserDashboard,
@@ -52,12 +51,7 @@ export function DashboardDetail({
           <Accordion allowToggle={true} key={index}>
             <AccordionItem>
               <h2>
-                <AccordionButton
-                  backgroundColor="white"
-                  _expanded={{
-                    bg: '#3182ce',
-                    color: 'white',
-                  }}>
+                <AccordionButton>
                   <Box flex="1" textAlign="left">
                     {prediction.groupName ? `${prediction.groupName} - ` : ''}
                     {prediction.team1Name} {' vs '} {prediction.team2Name}

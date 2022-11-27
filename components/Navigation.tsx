@@ -9,7 +9,6 @@ import {
   VStack,
   Icon,
   useColorModeValue,
-  useColorMode,
   Link as LinkChakra,
   Text,
   FlexProps,
@@ -20,11 +19,12 @@ import {
   MenuList,
 } from '@chakra-ui/react';
 import { FiMenu, FiChevronDown } from 'react-icons/fi';
-import { MoonIcon, SunIcon } from '@chakra-ui/icons';
+// import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 import { IconType } from 'react-icons';
 import { ReactText } from 'react';
 import Link from 'next/link';
 import AuthStore from '../services/AuthStore';
+import { DarkModeSwitch } from './DarkModeSwitch';
 
 interface NavItemProps extends FlexProps {
   icon: IconType;
@@ -74,7 +74,6 @@ interface MobileProps extends FlexProps {
 }
 
 export const MobileNav = ({ onOpen, userData, ...rest }: MobileProps) => {
-  const { colorMode, toggleColorMode } = useColorMode();
   const router = useRouter();
 
   const signOut = () => {
@@ -111,6 +110,7 @@ export const MobileNav = ({ onOpen, userData, ...rest }: MobileProps) => {
 
       <HStack spacing={{ base: '0', md: '6' }}>
         <Flex alignItems={'center'}>
+          <DarkModeSwitch />
           <Menu>
             <MenuButton
               py={2}

@@ -1,7 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
   FormControl,
-  Tag,
   NumberInput,
   NumberInputField,
   Box,
@@ -10,14 +9,14 @@ import {
   Center,
   SimpleGrid,
   Text,
-  Show,
-  Hide,
-  Checkbox,
   RadioGroup,
   Radio,
   Stack,
+  useColorModeValue,
+  Flex,
 } from '@chakra-ui/react';
 import { FormPredictionResult } from '../Forms';
+import Image from 'next/image'
 
 interface FormPredictionProps {
   predictionModel: any;
@@ -74,31 +73,32 @@ export function FormPrediction({
   return (
     <>
       <Box
-        border={'1px #3182ce solid'}
+        bg={useColorModeValue('white', 'gray.600')}
+        boxShadow={'xl'}
+        overflow={'hidden'}
         margin={'5px'}
         padding={'5px'}
-        borderRadius={'10px'}>
-        <SimpleGrid minChildWidth="120px" spacing="40px">
-          <Center>
-            <Text fontSize="2xl">
+        rounded="md"
+        p="8"
+        my="8">
+        <Flex justify="space-between" mb="4">
+          <Box>
+            <Text fontSize="xl" fontWeight="semibold">
               {predictionModel.groupName
                 ? predictionModel.groupName
                 : predictionModel.phaseName}
             </Text>
-          </Center>
-        </SimpleGrid>
-        <SimpleGrid>
-          <Center>
-            <Text fontSize="1xl">
-              <Badge
-                ml="1"
-                fontSize="0.8em"
-                colorScheme={predictionModel.closed ? 'red' : 'green'}>
-                {new Date(predictionModel.date).toLocaleDateString()}
-              </Badge>
-            </Text>
-          </Center>
-        </SimpleGrid>
+          </Box>
+          <Box>
+            <Badge
+              ml="1"
+              fontSize="sm"
+              colorScheme={predictionModel.closed ? 'red' : 'green'}>
+              {new Date(predictionModel.date).toLocaleDateString()}
+            </Badge>
+          </Box>
+        </Flex>
+
         {predictionModel.qualified ? (
           <FormPredictionResult
             key={predictionModel.gameId}
@@ -135,13 +135,24 @@ export function FormPrediction({
         ) : (
           <></>
         )}
+        <Divider />
         <SimpleGrid columns={2} spacing="20px">
           <Box>
             <SimpleGrid columns={1} spacing="5px">
               <Center>
-                <Text fontSize="1xl">
-                  {predictionModel.team1Name ? predictionModel.team1Name : ''}
-                </Text>
+                <Flex flexDirection="column" align="center" my="4">
+                  <Box mb="6">
+                    <Image
+                      src={`/../public/img/flags/${predictionModel.team1Name}.png`}
+                      alt="/"
+                      width="100"
+                      height="64"
+                    />
+                  </Box>
+                  <Text fontSize="1xl" fontWeight="semibold" textAlign="center">
+                    {predictionModel.team1Name ? predictionModel.team1Name : ''}
+                  </Text>
+                </Flex>
               </Center>
               <FormControl>
                 <NumberInput
@@ -162,9 +173,19 @@ export function FormPrediction({
           <Box>
             <SimpleGrid columns={1} spacing="5px">
               <Center>
-                <Text fontSize="1xl">
-                  {predictionModel.team2Name ? predictionModel.team2Name : ''}
-                </Text>
+                <Flex flexDirection="column" align="center" my="4">
+                  <Box mb="6">
+                    <Image
+                      src={`/../public/img/flags/${predictionModel.team2Name}.png`}
+                      alt="/"
+                      width="100"
+                      height="64"
+                    />
+                  </Box>
+                  <Text fontSize="1xl" fontWeight="semibold" textAlign="center">
+                    {predictionModel.team2Name ? predictionModel.team2Name : ''}
+                  </Text>
+                </Flex>
               </Center>
               <FormControl>
                 <NumberInput
