@@ -143,7 +143,7 @@ export function FormPrediction({
                 <Flex flexDirection="column" align="center" my="4">
                   <Box mb="6">
                     <Image
-                      src={`/../public/img/flags/${predictionModel.team1Name}.png`}
+                      src={`../public/img/flags/${predictionModel.team1Name}.png`}
                       alt="/"
                       width="100"
                       height="64"
@@ -176,7 +176,7 @@ export function FormPrediction({
                 <Flex flexDirection="column" align="center" my="4">
                   <Box mb="6">
                     <Image
-                      src={`/../public/img/flags/${predictionModel.team2Name}.png`}
+                      src={`../public/img/flags/${predictionModel.team2Name}.png`}
                       alt="/"
                       width="100"
                       height="64"
