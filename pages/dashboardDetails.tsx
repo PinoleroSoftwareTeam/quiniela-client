@@ -83,7 +83,7 @@ export default function DashboardDetails() {
 
   useEffect(() => {
     loadData();
-  }, [param1, param2]);
+  }, [param1, param2, loadData]);
 
   const onChangeGroupByDate = (e: any) => {
     const { checked } = e.target;

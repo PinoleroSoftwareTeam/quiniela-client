@@ -49,7 +49,7 @@ export default function SignIn() {
         return;
       })
       .then(data => {});
-  }, []);
+  }, [router]);
 
   const [showPassword, setShowPassword] = useState(false);
   const [register, setRegister] = useState<IRegister>(newRegister());

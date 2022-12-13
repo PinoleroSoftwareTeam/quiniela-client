@@ -24,6 +24,9 @@ export default function DashboardDetailDefault({
 }: {
   predictions: Array<IPredictionQuinielaUserDashboardByDate>;
 }) {
+  const color =  useColorModeValue('white', 'gray.700')
+  const colorPositionT = useColorModeValue('green.100', 'green.900');
+  const colorPositionE = useColorModeValue('red.100', 'red.900');
   return (
     <>
       <Flex flexDirection="column">
@@ -33,14 +36,15 @@ export default function DashboardDetailDefault({
               <Heading size="md" mt="4" mb="2">
                 {item.date}
               </Heading>
-              <Flex flexWrap="wrap" justifyContent='center'>
-                {item.predictions.map(prediction => {
+              <Flex key={index} flexWrap="wrap" justifyContent='center'>
+                {item.predictions.map((prediction, i) => {
                   return (
                     <Box
+                      key={`prediction-${i}`}
                       maxW={'270px'}
                       w={'full'}
                       m="4"
-                      bg={useColorModeValue('white', 'gray.700')}
+                      bg={color}
                       boxShadow={'xl'}
                       rounded={'md'}
                       overflow={'hidden'}>
@@ -56,8 +60,8 @@ export default function DashboardDetailDefault({
                               rounded="full"
                               bg={
                                 prediction.totalPoint >= 2
-                                  ? useColorModeValue('green.100', 'green.900')
-                                  : useColorModeValue('red.100', 'red.900')
+                                  ? colorPositionT
+                                  : colorPositionE
                               }
                               color={
                                 prediction.totalPoint >= 2

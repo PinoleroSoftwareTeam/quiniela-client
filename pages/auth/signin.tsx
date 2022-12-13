@@ -48,7 +48,7 @@ export default function SignIn() {
 
   useEffect(() => {
     getPing();
-  }, []);
+  }, [getPing]);
 
   const [showPassword, setShowPassword] = useState(false);
   const [login, setLogin] = useState<ILogin>({ email: '', password: '' });

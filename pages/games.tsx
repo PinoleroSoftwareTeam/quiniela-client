@@ -100,7 +100,7 @@ function Games() {
     loadSelect();
     loadCalendar();
     loadPhase();
-  }, []);
+  }, [loadCalendar]);
 
   const onClickEdit = (data: any) => {
     setGame(data);
