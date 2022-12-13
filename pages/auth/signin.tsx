@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import {
   Flex,
@@ -16,6 +16,9 @@ import {
   FormHelperText,
   InputRightElement,
   useToast,
+  Image,
+  FormLabel,
+  Hide,
 } from '@chakra-ui/react';
 import HttpServices from '../../services/httpServices';
 import { FaAt, FaLock } from 'react-icons/fa';
@@ -58,8 +61,16 @@ export default function SignIn() {
     setLogin({ ...login, [name]: value });
   };
 
-  const handleOnClickLogin = (e: any) => {
-    httpServices
+  const handleKeyDown = (event: React.KeyboardEvent): void => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      event.stopPropagation();
+      handleOnClickLogin(event);
+    }
+  };
+
+  const handleOnClickLogin = async (e: any) => {
+    await httpServices
       .post(endpoint.auth.signin, login)
       .then(res => {
         return res.json();
@@ -88,76 +99,61 @@ export default function SignIn() {
       .catch(error => {});
   };
 
+  const handleRegister = () => {
+    router.push('/auth/signup');
+  }
+
   return (
-    <Flex
-      flexDirection="column"
-      width="100wh"
-      height="100vh"
-      backgroundColor="gray.200"
-      justifyContent="center"
-      alignItems="center">
-      <Stack
-        flexDir="column"
-        mb="2"
-        justifyContent="center"
-        alignItems="center">
-        <Avatar bg="blue.500" />
-        <Heading color="blue.500">Inicio de Sesión</Heading>
-        <Box minW={{ base: '90%', md: '468px' }}>
-          <Stack
-            spacing={4}
-            p="1rem"
-            backgroundColor="whiteAlpha.900"
-            boxShadow="md">
-            <FormControl onChange={handleChange}>
-              <InputGroup>
-                <InputLeftElement pointerEvents="none">
-                  <CFaAt color="gray.300" />
-                </InputLeftElement>
-                <Input
-                  type="email"
-                  placeholder="Correo electronico"
-                  name="email"
-                />
-              </InputGroup>
-            </FormControl>
-            <FormControl onChange={handleChange}>
-              <InputGroup>
-                <InputLeftElement pointerEvents="none" color="gray.300">
-                  <CFaLock color="gray.300" />
-                </InputLeftElement>
-                <Input
-                  type={showPassword ? 'text' : 'password'}
-                  placeholder="Contraseña"
-                  name="password"
-                />
-                <InputRightElement width="4.5rem">
-                  <Button h="1.75rem" size="sm" onClick={handleShowClick}>
-                    {showPassword ? 'Ocultar' : 'Mostrar'}
-                  </Button>
-                </InputRightElement>
-              </InputGroup>
-              <FormHelperText textAlign="right">
-                <Link>¿Olvidaste tu contraseña?</Link>
-              </FormHelperText>
-            </FormControl>
+    <Stack minH={'100vh'} direction={{ base: 'column', md: 'row' }}>
+      <Flex p={8} flex={1} align={'center'} justify={'center'}>
+        <Stack spacing={4} w={'full'} maxW={'md'}>
+          <Heading fontSize={'2xl'}>Inicio de Sesión</Heading>
+          <FormControl
+            id="email"
+            onChange={handleChange}
+            onKeyDown={handleKeyDown}>
+            <FormLabel>Correo electronico</FormLabel>
+            <Input type="email" name="email" />
+          </FormControl>
+          <FormControl
+            id="password"
+            onChange={handleChange}
+            onKeyDown={handleKeyDown}>
+            <FormLabel>Contraseña</FormLabel>
+            <Input type="password" name="password" />
+          </FormControl>
+          <Stack spacing={6}>
+            <Stack
+              direction={{ base: 'column', sm: 'row' }}
+              align={'start'}
+              justify={'space-between'}></Stack>
             <Button
-              borderRadius={0}
-              type="submit"
-              variant="solid"
-              colorScheme="blue"
-              width="full"
+              colorScheme={'blue'}
+              variant={'solid'}
               onClick={handleOnClickLogin}>
               Iniciar sesión
             </Button>
+            <Button
+              textDecoration="none"
+              colorScheme={'green'}
+              variant="solid"
+              onClick={handleRegister}>
+              Registrarte
+            </Button>
           </Stack>
-        </Box>
-      </Stack>
-      <Box>
-        <Link color="teal.500" href="/auth/signup">
-          Registrarte
-        </Link>
-      </Box>
-    </Flex>
+        </Stack>
+      </Flex>
+      <Flex flex={1}>
+        <Hide below='md'>
+          <Image
+            alt={'Login Image'}
+            objectFit={'cover'}         
+            src={
+              'https://images.pexels.com/photos/10183990/pexels-photo-10183990.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+            }
+          />
+        </Hide>
+      </Flex>
+    </Stack>
   );
 }

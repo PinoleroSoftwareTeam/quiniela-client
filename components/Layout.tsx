@@ -61,6 +61,7 @@ export default function SidebarWithHeader({
 }) {
   const router = useRouter();
   const [userData, setUserData] = useState<any>({});
+  const bgColor = useColorModeValue('brand.purple', 'brand.yellow')
 
   useEffect(() => {
     let user = AuthStore.getUser();
@@ -114,6 +115,7 @@ interface SidebarProps extends BoxProps {
 }
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
   const [userData, setUserData] = useState<any>({});
+  const bgColor = useColorModeValue('brand.purple', 'brand.yellow')
   useEffect(() => {
     let user = AuthStore.getUser();
     user = user ? user : {};
@@ -138,13 +140,29 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       {LinkItems.map(item => {
         if (userData.administrator) {
           return (
-            <NavItem key={item.name} icon={item.icon} link={item.path}>
+            <NavItem
+              _hover={{
+                bg: bgColor,
+                color: 'brand.whiteLite',
+              }}
+              fontWeight="medium"
+              key={item.name}
+              icon={item.icon}
+              link={item.path}>
               {item.name}
             </NavItem>
           );
         } else if (!item.role) {
           return (
-            <NavItem key={item.name} icon={item.icon} link={item.path}>
+            <NavItem
+              _hover={{
+                bg: bgColor,
+                color: 'brand.whiteLite',
+              }}
+              fontWeight="medium"
+              key={item.name}
+              icon={item.icon}
+              link={item.path}>
               {item.name}
             </NavItem>
           );
